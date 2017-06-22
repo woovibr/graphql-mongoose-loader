@@ -6,7 +6,7 @@ npm i @entria/graphql-mongoose-loader --save
 yarn add @entria/graphql-mongoose-loader
 ```
 
-## Batch
+## Mongoose Dataloader Batch
 
 Add batch to your GraphQL resolvers/loaders
 
