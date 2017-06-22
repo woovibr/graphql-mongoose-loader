@@ -1,5 +1,19 @@
 /* @flow */
-console.log('TODO implement it');
+export connectionFromMongoCursor, {
+  base64,
+  unbase64,
+  cursorToOffset,
+  getOffsetWithDefault,
+  offsetToCursor,
+  getTotalCount,
+  calculateOffsets,
+  getPageInfo,
+} from './ConnectionFromMongoCursor';
 
-// dummy function
-export const add = (x: number, y: number): number => x + y;
+export type {
+  OffsetOptions,
+  PageInfoOptions,
+  ConnectionOptions,
+} from './ConnectionFromMongoCursor';
+
+export mongooseLoader from './MongooseLoader';

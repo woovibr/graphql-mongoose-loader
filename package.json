@@ -15,6 +15,8 @@
     "babel-preset-stage-0": "^6.24.1",
     "flow-bin": "^0.48.0",
     "flow-coverage-report": "^0.3.0",
+    "graphql": "^0.10.3",
+    "graphql-relay": "^0.5.2",
     "jest": "^20.0.4",
     "jest-cli": "^20.0.4",
     "lint-staged": "^4.0.0",
@@ -25,8 +27,8 @@
   "jsnext:main": "src/index.js",
   "keywords": [
     "graphql",
-    "mongoose",
-    "loader"
+    "loader",
+    "mongoose"
   ],
   "license": "MIT",
   "lint-staged": {
@@ -43,11 +45,12 @@
     "url": "git+https://github.com/entria/graphql-mongoose-loader"
   },
   "scripts": {
-    "build": "rm -rf lib/* && babel src --ignore *.spec.js --out-dir lib --copy-files --source-maps",
+    "build": "rm -rf lib/* && babel src --ignore *.spec.js --out-dir lib --copy-files && npm run build:flow",
+    "build:flow": "find ./src -name '*.js' -not -path '*/__tests__*' | while read filepath; do cp $filepath `echo $filepath | sed 's/\\/src\\//\\/lib\\//g'`.flow; done",
+    "flow:coverage": "flow-coverage-report -i 'src/**/*.js' -t html",
     "lint": "eslint src/**",
     "lint:staged": "lint-staged",
     "test": "jest",
-    "test:watch": "jest --watch --coverage",
-    "flow:coverage": "flow-coverage-report -i 'src/**/*.js' -t html"
+    "test:watch": "jest --watch --coverage"
   }
 }

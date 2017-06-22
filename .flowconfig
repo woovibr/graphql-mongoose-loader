@@ -3,6 +3,7 @@
 [include]
 
 [libs]
+node_modules/graphql-relay/lib/index.js.flow
 
 [options]
 sharedmemory.hash_table_pow=21
