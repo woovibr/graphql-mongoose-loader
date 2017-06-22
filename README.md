@@ -2,7 +2,8 @@
 
 ## Install
 ```
-npm i @entria/graphql-mongoose-loader
+npm i @entria/graphql-mongoose-loader --save
+yarn add @entria/graphql-mongoose-loader
 ```
 
 ## Batch
