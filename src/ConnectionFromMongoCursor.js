@@ -170,7 +170,10 @@ const connectionFromMongoCursor = async ({
   cursor.skip(skip);
   cursor.limit(limit);
 
-  const slice = await cursor.exec();
+  //avoid large object retrieval from database
+  const clonedCursor = cursor.find().merge(cursor).select({ _id: 1 })
+
+  const slice = await clonedCursor.exec();
 
   const edges = slice.map((value, index) => ({
     cursor: offsetToCursor(startOffset + index),
