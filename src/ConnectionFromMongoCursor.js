@@ -41,12 +41,9 @@ export type TotalCountOptions = {
   cursor: MongooseCursor,
 };
 export const getTotalCount = async ({ cursor }: TotalCountOptions) => {
-  const totalCount = await cursor.count();
+  const clonedCursor = cursor.model.find().merge(cursor);
 
-  // return cursor to find again
-  cursor.find();
-
-  return totalCount;
+  return await clonedCursor.count();
 };
 
 export type OffsetOptions = {
@@ -149,8 +146,10 @@ const connectionFromMongoCursor = async ({
   args = {},
   loader,
 }: ConnectionOptions) => {
+  const clonedCursor = cursor.model.find().merge(cursor);
+
   const totalCount = await getTotalCount({
-    cursor,
+    clonedCursor,
   });
 
   const {
@@ -167,10 +166,11 @@ const connectionFromMongoCursor = async ({
   } = calculateOffsets({ args, totalCount });
 
   // If supplied slice is too large, trim it down before mapping over it.
-  cursor.skip(skip);
-  cursor.limit(limit);
+  clonedCursor.skip(skip);
+  clonedCursor.limit(limit);
 
-  const slice = await cursor.exec();
+  //avoid large objects retrieval from collection
+  const slice = await clonedCursor.select({ _id: 1 }).exec();
 
   const edges = slice.map((value, index) => ({
     cursor: offsetToCursor(startOffset + index),
