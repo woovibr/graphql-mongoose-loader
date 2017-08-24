@@ -13,6 +13,7 @@
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-flow": "^6.23.0",
     "babel-preset-stage-0": "^6.24.1",
+    "eslint": "^4.5.0",
     "flow-bin": "^0.48.0",
     "flow-coverage-report": "^0.3.0",
     "graphql": "^0.10.3",
@@ -45,12 +46,16 @@
     "url": "git+https://github.com/entria/graphql-mongoose-loader"
   },
   "scripts": {
-    "prepublish": "npm run build",
     "build": "rm -rf lib/* && babel src --ignore *.spec.js --out-dir lib --copy-files && npm run build:flow",
     "build:flow": "find ./src -name '*.js' -not -path '*/__tests__*' | while read filepath; do cp $filepath `echo $filepath | sed 's/\\/src\\//\\/lib\\//g'`.flow; done",
     "flow:coverage": "flow-coverage-report -i 'src/**/*.js' -t html",
     "lint": "eslint src/**",
     "lint:staged": "lint-staged",
+    "prepublish": "npm run build",
+    "check": "npm run test",
+    "release:major": "npm run check && npm version major && git push --follow-tags && npm publish --access public",
+    "release:minor": "npm run check && npm version minor && git push --follow-tags && npm publish --access public",
+    "release:patch": "npm run check && npm version patch && git push --follow-tags && npm publish --access public",
     "test": "jest",
     "test:watch": "jest --watch --coverage"
   }
