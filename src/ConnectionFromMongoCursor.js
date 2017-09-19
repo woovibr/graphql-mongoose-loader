@@ -149,7 +149,7 @@ const connectionFromMongoCursor = async ({
   const clonedCursor = cursor.model.find().merge(cursor);
 
   const totalCount = await getTotalCount({
-    clonedCursor,
+    cursor: clonedCursor,
   });
 
   const {
