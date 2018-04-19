@@ -78,9 +78,6 @@ export const calculateOffsets = ({ args, totalCount }: OffsetOptions) => {
 
   const limit = endOffset - startOffset;
 
-  mongodbCursor.skip(skip);
-  mongodbCursor.limit(limit);
-
   const endCursorOffset = limit + skip;
   const startCursorOffset = skip;
 
@@ -120,13 +117,17 @@ export const getPageInfo = ({
   beforeOffset,
   startOffset,
   endOffset,
+  endCursorOffset,
+  startCursorOffset,
   totalCount,
 }: PageInfoOptions) => {
   const firstEdge = edges[0];
   const lastEdge = edges[edges.length - 1];
-  const lowerBound = after ? afterOffset + 1 : 0;
-  const upperBound = before ? Math.min(beforeOffset, count) : count;
+  // const lowerBound = after ? afterOffset + 1 : 0;
+  // const upperBound = before ? Math.min(beforeOffset, count) : count;
 
+  const endCursorOffset = limit + skip;
+  const startCursorOffset = skip;
   return {
     startCursor: firstEdge ? firstEdge.cursor : null,
     endCursor: lastEdge ? lastEdge.cursor : null,
