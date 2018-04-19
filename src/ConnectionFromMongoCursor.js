@@ -118,14 +118,14 @@ export const getPageInfo = ({
 }: PageInfoOptions) => {
   const firstEdge = edges[0];
   const lastEdge = edges[edges.length - 1];
-  const lowerBound = after ? afterOffset + 1 : 0;
-  const upperBound = before ? Math.min(beforeOffset, totalCount) : totalCount;
+  const endCursorOffset = limit + skip;
+  const startCursorOffset = skip;
 
   return {
     startCursor: firstEdge ? firstEdge.cursor : null,
     endCursor: lastEdge ? lastEdge.cursor : null,
-    hasPreviousPage: last !== null ? startOffset > lowerBound : false,
-    hasNextPage: first !== null ? endOffset < upperBound : false,
+    hasPreviousPage: startCursorOffset > 0,
+    hasNextPage: endCursorOffset < count,
   };
 };
 
