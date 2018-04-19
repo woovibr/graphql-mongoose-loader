@@ -54,8 +54,8 @@
     "prepublish": "npm run build",
     "check": "npm run test",   
     "release:major": "npm run check && npm version major && git push --follow-tags",
-    "release:minor": "npm run check && npm version minor && git push --follow-tags && npm publish --access public",
-    "release:patch": "npm run check && npm version patch && git push --follow-tags && npm publish --access public",
+    "release:minor": "npm run check && npm version minor && git push --follow-tags",
+    "release:patch": "npm run check && npm version patch && git push --follow-tags",
     "test": "jest",
     "test:watch": "jest --watch --coverage"
   }
