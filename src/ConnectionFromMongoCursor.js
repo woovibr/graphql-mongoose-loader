@@ -89,6 +89,8 @@ export const calculateOffsets = ({ args, totalCount }: OffsetOptions) => {
     afterOffset,
     startOffset,
     endOffset,
+    startCursorOffset: skip,
+    endCursorOffset: limit + skip,
   };
 };
 
@@ -103,29 +105,36 @@ export type PageInfoOptions = {
   startOffset: number,
   endOffset: number,
   totalCount: number,
+  startCursorOffset: number,
+  endCursorOffset: number,
 };
 export const getPageInfo = ({
   edges,
-  before,
-  after,
-  first,
-  last,
-  afterOffset,
-  beforeOffset,
-  startOffset,
-  endOffset,
+  // before,
+  // after,
+  // first,
+  // last,
+  // afterOffset,
+  // beforeOffset,
+  // startOffset,
+  // endOffset,
   totalCount,
+  startCursorOffset,
+  endCursorOffset,
 }: PageInfoOptions) => {
   const firstEdge = edges[0];
   const lastEdge = edges[edges.length - 1];
-  const endCursorOffset = limit + skip;
-  const startCursorOffset = skip;
+
+  // const lowerBound = after ? afterOffset + 1 : 0;
+  // const upperBound = before ? Math.min(beforeOffset, totalCount) : totalCount;
 
   return {
     startCursor: firstEdge ? firstEdge.cursor : null,
     endCursor: lastEdge ? lastEdge.cursor : null,
     hasPreviousPage: startCursorOffset > 0,
-    hasNextPage: endCursorOffset < count,
+    hasNextPage: endCursorOffset < totalCount,
+    // hasPreviousPage: last !== null ? startOffset > lowerBound : false,
+    // hasNextPage: first !== null ? endOffset < upperBound : false,
   };
 };
 
@@ -139,7 +148,6 @@ export type ConnectionOptions = {
   // Loader to load individually objects
   loader: (context: GraphQLContext, id: string) => Object,
 };
-
 const connectionFromMongoCursor = async ({
   cursor,
   context,
@@ -163,6 +171,8 @@ const connectionFromMongoCursor = async ({
     afterOffset,
     startOffset,
     endOffset,
+    startCursorOffset,
+    endCursorOffset,
   } = calculateOffsets({ args, totalCount });
 
   // If supplied slice is too large, trim it down before mapping over it.
@@ -180,6 +190,8 @@ const connectionFromMongoCursor = async ({
   return {
     edges,
     count: totalCount,
+    endCursorOffset,
+    startCursorOffset,
     pageInfo: getPageInfo({
       edges,
       before,
@@ -191,6 +203,8 @@ const connectionFromMongoCursor = async ({
       startOffset,
       endOffset,
       totalCount,
+      startCursorOffset,
+      endCursorOffset,
     }),
   };
 };
