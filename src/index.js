@@ -1,5 +1,7 @@
 /* @flow */
-export connectionFromMongoCursor, {
+export { default as connectionFromMongoCursor } from './ConnectionFromMongoCursor';
+
+export {
   base64,
   unbase64,
   cursorToOffset,
@@ -16,4 +18,4 @@ export type {
   ConnectionOptions,
 } from './ConnectionFromMongoCursor';
 
-export mongooseLoader from './MongooseLoader';
+export { default as mongooseLoader } from './MongooseLoader';
