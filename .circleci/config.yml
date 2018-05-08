@@ -12,7 +12,7 @@ jobs:
             - v0-npm
       - restore_cache:
           keys:
-            - v0-mongodb-{{ .Branch }}
+            - v0-mongodb-binaries-{{ .Branch }}
       - run:
           name: Install Dependencies
           command: yarn install --pure-lockfile
@@ -27,6 +27,6 @@ jobs:
           name: Run tests
           command: yarn test
       - save_cache:
-          key: v0-mongodb-{{ .Branch }}
+          key: v0-mongodb-binaries-{{ .Branch }}
           paths:
-            - $HOME/.mongodb-binaries
+            - ~/.mongodb-binaries

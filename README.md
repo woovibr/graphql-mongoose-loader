@@ -1,4 +1,4 @@
-# GraphQL Mongoose Loader
+# GraphQL Mongoose Loader [![CircleCI](https://circleci.com/gh/entria/graphql-mongoose-loader/tree/master.svg?style=svg)](https://circleci.com/gh/entria/graphql-mongoose-loader/tree/master)
 
 ## Install
 ```
