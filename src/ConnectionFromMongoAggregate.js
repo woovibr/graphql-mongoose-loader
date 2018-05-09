@@ -5,6 +5,10 @@ import type { ConnectionOptions } from './ConnectionFromMongoCursor';
 
 const cloneAggregate = aggregate => aggregate._model.aggregate(aggregate.pipeline());
 
+/**
+ * Your aggregate must return documents with _id fields
+ *  those _id's are the ones going to be passed to the loader function
+ */
 const connectionFromMongoAggregate = async ({
   aggregate,
   context,
@@ -36,7 +40,7 @@ const connectionFromMongoAggregate = async ({
   clonedAggregate.skip(skip);
   clonedAggregate.limit(limit);
 
-  //avoid large objects retrieval from collection
+  // avoid large objects retrieval from collection
   const slice = await clonedAggregate.project('_id');
 
   const edges = slice.map((value, index) => ({
