@@ -110,7 +110,7 @@ export const loadUsersThatHaveGroup = async (context: GraphQLContext, args: Conn
   ]);
 
   return connectionFromMongoAggregate({
-    cursor: aggregate,
+    aggregate,
     context,
     args,
     loader: load,
