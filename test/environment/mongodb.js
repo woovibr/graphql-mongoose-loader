@@ -6,16 +6,7 @@ class MongoDbEnvironment extends NodeEnvironment {
   constructor(config) {
     super(config);
     // eslint-disable-next-line new-cap
-    this.mongod = new MongodbMemoryServer.default({
-      instance: {
-        // dbName is null, so it's random
-        // dbName: MONGO_DB_NAME,
-      },
-      binary: {
-        version: '3.6.1',
-      },
-      // debug: true,
-    });
+    this.mongod = new MongodbMemoryServer.default();
   }
 
   async setup() {

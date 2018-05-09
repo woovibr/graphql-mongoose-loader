@@ -1,0 +1,41 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should return connection from mongo aggregate 1`] = `
+Object {
+  "count": 2,
+  "edges": Array [
+    Object {
+      "cursor": "bW9uZ286MA==",
+      "node": "user",
+    },
+  ],
+  "endCursorOffset": 1,
+  "pageInfo": Object {
+    "endCursor": "bW9uZ286MA==",
+    "hasNextPage": true,
+    "hasPreviousPage": false,
+    "startCursor": "bW9uZ286MA==",
+  },
+  "startCursorOffset": 0,
+}
+`;
+
+exports[`should return connection from mongo aggregate 2`] = `
+Object {
+  "count": 2,
+  "edges": Array [
+    Object {
+      "cursor": "bW9uZ286MQ==",
+      "node": "user",
+    },
+  ],
+  "endCursorOffset": 2,
+  "pageInfo": Object {
+    "endCursor": "bW9uZ286MQ==",
+    "hasNextPage": false,
+    "hasPreviousPage": true,
+    "startCursor": "bW9uZ286MQ==",
+  },
+  "startCursorOffset": 1,
+}
+`;

@@ -2,8 +2,21 @@
 
 import mongoose from 'mongoose';
 
-export const GroupSchema = new mongoose.Schema({
-  name: String,
-});
+const { ObjectId } = mongoose.Schema.Types;
+
+export const GroupSchema = new mongoose.Schema(
+  {
+    name: String,
+    users: [
+      {
+        type: ObjectId,
+        ref: 'User',
+      },
+    ],
+  },
+  {
+    collection: 'Group',
+  },
+);
 
 export default mongoose.model('Group', GroupSchema);
