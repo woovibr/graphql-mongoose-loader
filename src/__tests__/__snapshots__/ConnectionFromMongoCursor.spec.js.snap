@@ -47,3 +47,50 @@ Object {
   "startCursorOffset": 2,
 }
 `;
+
+exports[`should work with empty args 1`] = `
+Object {
+  "count": 4,
+  "edges": Array [
+    Object {
+      "cursor": "bW9uZ286MA==",
+      "node": "user",
+    },
+    Object {
+      "cursor": "bW9uZ286MQ==",
+      "node": "user",
+    },
+    Object {
+      "cursor": "bW9uZ286Mg==",
+      "node": "user",
+    },
+    Object {
+      "cursor": "bW9uZ286Mw==",
+      "node": "user",
+    },
+  ],
+  "endCursorOffset": 4,
+  "pageInfo": Object {
+    "endCursor": "bW9uZ286Mw==",
+    "hasNextPage": false,
+    "hasPreviousPage": false,
+    "startCursor": "bW9uZ286MA==",
+  },
+  "startCursorOffset": 0,
+}
+`;
+
+exports[`should work with empty args and empty result 1`] = `
+Object {
+  "count": 0,
+  "edges": Array [],
+  "endCursorOffset": 0,
+  "pageInfo": Object {
+    "endCursor": null,
+    "hasNextPage": false,
+    "hasPreviousPage": false,
+    "startCursor": null,
+  },
+  "startCursorOffset": 0,
+}
+`;
