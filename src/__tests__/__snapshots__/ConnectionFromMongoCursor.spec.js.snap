@@ -23,3 +23,27 @@ Object {
   "startCursorOffset": 0,
 }
 `;
+
+exports[`should return connection from mongo cursor 2`] = `
+Object {
+  "count": 4,
+  "edges": Array [
+    Object {
+      "cursor": "bW9uZ286Mg==",
+      "node": "user",
+    },
+    Object {
+      "cursor": "bW9uZ286Mw==",
+      "node": "user",
+    },
+  ],
+  "endCursorOffset": 4,
+  "pageInfo": Object {
+    "endCursor": "bW9uZ286Mw==",
+    "hasNextPage": false,
+    "hasPreviousPage": true,
+    "startCursor": "bW9uZ286Mg==",
+  },
+  "startCursorOffset": 2,
+}
+`;

@@ -2,14 +2,13 @@
 
 import mongoose from 'mongoose';
 
-const { ObjectId } = mongoose.Schema.Types;
-
-export const UserSchema = new mongoose.Schema({
-  name: String,
-  group: {
-    type: ObjectId,
-    ref: 'Group',
+export const UserSchema = new mongoose.Schema(
+  {
+    name: String,
   },
-});
+  {
+    collection: 'User',
+  },
+);
 
 export default mongoose.model('User', UserSchema);

@@ -5,7 +5,6 @@ import {
   connectMongooseAndPopulate,
   disconnectMongoose,
   createUser,
-  createGroup,
 } from '../../test/helpers';
 
 import connectionFromMongoCursor from '../ConnectionFromMongoCursor';
@@ -18,29 +17,47 @@ beforeEach(clearDbAndRestartCounters);
 afterAll(disconnectMongoose);
 
 it('should return connection from mongo cursor', async () => {
-  // 2 users without groups
   const userA = await createUser();
   const userB = await createUser();
-
-  // 2 users with groups
-  const GroupA = await createGroup();
-  const GroupB = await createGroup();
-
-  await createUser({ group: GroupA });
-  await createUser({ group: GroupB });
+  const userC = await createUser();
+  const userD = await createUser();
 
   const cursor = UserModel.find();
+  const context = {
+    // got it throwing a 🎲
+    randomValue: 2,
+  };
 
-  const context = { randomProperty: 2 };
   const loader = jest.fn();
   loader.mockReturnValue('user');
 
-  const args = { first: 2 };
+  const argsFirstPage = { first: 2 };
 
-  const result = await connectionFromMongoCursor({ cursor, context, args, loader });
+  const resultFirstPage = await connectionFromMongoCursor({
+    cursor,
+    context,
+    args: argsFirstPage,
+    loader,
+  });
 
-  expect(result).toMatchSnapshot();
   expect(loader).toHaveBeenCalledTimes(2);
   expect(loader.mock.calls[0]).toEqual([context, userA._id]);
   expect(loader.mock.calls[1]).toEqual([context, userB._id]);
+  expect(resultFirstPage).toMatchSnapshot();
+
+  // second page
+
+  const argsSecondPage = { after: resultFirstPage.pageInfo.endCursor };
+
+  const resultSecondPage = await connectionFromMongoCursor({
+    cursor,
+    context,
+    args: argsSecondPage,
+    loader,
+  });
+
+  expect(loader).toHaveBeenCalledTimes(4);
+  expect(loader.mock.calls[2]).toEqual([context, userC._id]);
+  expect(loader.mock.calls[3]).toEqual([context, userD._id]);
+  expect(resultSecondPage).toMatchSnapshot();
 });
