@@ -1,20 +1,28 @@
 // @flow
+import type { ConnectionArguments } from 'graphql-relay';
+import type { Aggregate, ObjectId } from 'mongoose';
+
 import { calculateOffsets, getPageInfo, offsetToCursor } from './ConnectionFromMongoCursor';
 
-import type { ConnectionOptions } from './ConnectionFromMongoCursor';
-
 const cloneAggregate = aggregate => aggregate._model.aggregate(aggregate.pipeline());
+
+export type ConnectionOptionsAggregate<LoaderResult, Ctx> = {
+  aggregate: Aggregate,
+  context: Ctx,
+  args: ConnectionArguments,
+  loader: (Ctx, string | ObjectId) => LoaderResult,
+};
 
 /**
  * Your aggregate must return documents with _id fields
  *  those _id's are the ones going to be passed to the loader function
  */
-const connectionFromMongoAggregate = async ({
+async function connectionFromMongoAggregate<LoaderResult, Ctx>({
   aggregate,
   context,
   args = {},
   loader,
-}: ConnectionOptions) => {
+}: ConnectionOptionsAggregate<LoaderResult, Ctx>) {
   // https://github.com/Automattic/mongoose/blob/367261e6c83e7e367cf0d3fbd2edea4c64bf1ee2/lib/aggregate.js#L46
   const clonedAggregate = cloneAggregate(aggregate);
 
@@ -68,6 +76,6 @@ const connectionFromMongoAggregate = async ({
       endCursorOffset,
     }),
   };
-};
+}
 
 export default connectionFromMongoAggregate;
