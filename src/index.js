@@ -1,7 +1,7 @@
-/* @flow */
-export { default as connectionFromMongoCursor } from './ConnectionFromMongoCursor';
+// @flow
 
 export {
+  default as connectionFromMongoCursor,
   base64,
   unbase64,
   cursorToOffset,
@@ -15,7 +15,11 @@ export {
 export type {
   OffsetOptions,
   PageInfoOptions,
-  ConnectionOptions,
+  ConnectionOptionsCursor,
 } from './ConnectionFromMongoCursor';
+
+export { default as connectionFromMongoAggregate } from './ConnectionFromMongoAggregate';
+
+export type { ConnectionOptionsAggregate } from './ConnectionFromMongoAggregate';
 
 export { default as mongooseLoader } from './MongooseLoader';

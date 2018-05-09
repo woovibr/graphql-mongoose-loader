@@ -1,5 +1,6 @@
 // @flow
-import type { ConnectionArgs } from 'graphql-relay';
+import type { ConnectionArguments } from 'graphql-relay';
+import type { ObjectId, Query } from 'mongoose';
 
 export const PREFIX = 'mongo:';
 
@@ -17,7 +18,7 @@ export const cursorToOffset = (cursor: string): number =>
  * if the cursor contains a valid offset, that will be used, otherwise it will
  * be the default.
  */
-export const getOffsetWithDefault = (cursor: string, defaultOffset: number): number => {
+export const getOffsetWithDefault = (cursor: ?string, defaultOffset: number): number => {
   if (cursor === undefined || cursor === null) {
     return defaultOffset;
   }
@@ -32,9 +33,6 @@ export const offsetToCursor = (offset: number): string => base64(PREFIX + offset
 
 // improve this
 export type MongooseCursor = any;
-export type GraphQLContext = {
-  [key: string]: any,
-};
 
 export type TotalCountOptions = {
   // MongoCursor
@@ -48,18 +46,42 @@ export const getTotalCount = async ({ cursor }: TotalCountOptions) => {
 
 export type OffsetOptions = {
   // Connection Args
-  args: ConnectionArgs,
+  args: ConnectionArguments,
   // total Count
   totalCount: number,
 };
-export const calculateOffsets = ({ args, totalCount }: OffsetOptions) => {
+
+export type PageInfoOffsets = {
+  before: ?string,
+  after: ?string,
+  first: ?number,
+  last: ?number,
+  afterOffset: number,
+  beforeOffset: number,
+  startOffset: number,
+  endOffset: number,
+  startCursorOffset: number,
+  endCursorOffset: number,
+};
+
+export type Offsets = PageInfoOffsets & {
+  skip: number,
+  limit: number,
+};
+
+export type PageInfoOptions = PageInfoOffsets & {
+  edges: Array<Object>,
+  totalCount: number,
+};
+
+export const calculateOffsets = ({ args, totalCount }: OffsetOptions): Offsets => {
   const { after, before } = args;
   let { first, last } = args;
 
   // Limit the maximum number of elements in a query
   if (!first && !last) first = 10;
-  if (first > 1000) first = 1000;
-  if (last > 1000) last = 1000;
+  if (first && first > 1000) first = 1000;
+  if (last && last > 1000) last = 1000;
 
   const beforeOffset = getOffsetWithDefault(before, totalCount);
   const afterOffset = getOffsetWithDefault(after, -1);
@@ -67,10 +89,10 @@ export const calculateOffsets = ({ args, totalCount }: OffsetOptions) => {
   let startOffset = Math.max(-1, afterOffset) + 1;
   let endOffset = Math.min(totalCount, beforeOffset);
 
-  if (first !== undefined) {
+  if (typeof first === 'number') {
     endOffset = Math.min(endOffset, startOffset + first);
   }
-  if (last !== undefined) {
+  if (typeof last === 'number') {
     startOffset = Math.max(startOffset, endOffset - last);
   }
 
@@ -94,20 +116,6 @@ export const calculateOffsets = ({ args, totalCount }: OffsetOptions) => {
   };
 };
 
-export type PageInfoOptions = {
-  edges: Array<Object>,
-  before: number,
-  after: number,
-  first: number,
-  last: number,
-  afterOffset: number,
-  beforeOffset: number,
-  startOffset: number,
-  endOffset: number,
-  totalCount: number,
-  startCursorOffset: number,
-  endCursorOffset: number,
-};
 export const getPageInfo = ({
   edges,
   // before,
@@ -138,22 +146,19 @@ export const getPageInfo = ({
   };
 };
 
-export type ConnectionOptions = {
-  // MongooseCursor
-  cursor: MongooseCursor,
-  // GraphQL context
-  context: GraphQLContext,
-  // Connection Args
-  args: ConnectionArgs,
-  // Loader to load individually objects
-  loader: (context: GraphQLContext, id: string) => Object,
+export type ConnectionOptionsCursor<LoaderResult, Ctx> = {
+  cursor: Query,
+  context: Ctx,
+  args: ConnectionArguments,
+  loader: (Ctx, string | ObjectId) => LoaderResult,
 };
-const connectionFromMongoCursor = async ({
+
+async function connectionFromMongoCursor<LoaderResult, Ctx>({
   cursor,
   context,
   args = {},
   loader,
-}: ConnectionOptions) => {
+}: ConnectionOptionsCursor<LoaderResult, Ctx>) {
   const clonedCursor = cursor.model.find().merge(cursor);
 
   const totalCount = await getTotalCount({
@@ -207,6 +212,6 @@ const connectionFromMongoCursor = async ({
       endCursorOffset,
     }),
   };
-};
+}
 
 export default connectionFromMongoCursor;
