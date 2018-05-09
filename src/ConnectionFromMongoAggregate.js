@@ -4,7 +4,8 @@ import type { Aggregate, ObjectId } from 'mongoose';
 
 import { calculateOffsets, getPageInfo, offsetToCursor } from './ConnectionFromMongoCursor';
 
-const cloneAggregate = aggregate => aggregate._model.aggregate(aggregate.pipeline());
+const cloneAggregate = (aggregate: Aggregate): Aggregate =>
+  aggregate._model.aggregate(aggregate.pipeline());
 
 export type ConnectionOptionsAggregate<LoaderResult, Ctx> = {
   aggregate: Aggregate,
@@ -26,7 +27,7 @@ async function connectionFromMongoAggregate<LoaderResult, Ctx>({
   // https://github.com/Automattic/mongoose/blob/367261e6c83e7e367cf0d3fbd2edea4c64bf1ee2/lib/aggregate.js#L46
   const clonedAggregate = cloneAggregate(aggregate);
 
-  const resultCount = await cloneAggregate(aggregate).count('total');
+  const resultCount: Array<{ total: number }> = await cloneAggregate(aggregate).count('total');
   const totalCount = resultCount.length ? resultCount[0].total : 0;
 
   const {
@@ -46,10 +47,11 @@ async function connectionFromMongoAggregate<LoaderResult, Ctx>({
 
   // If supplied slice is too large, trim it down before mapping over it.
   clonedAggregate.skip(skip);
-  clonedAggregate.limit(limit);
+  // limit should never be 0 because $slice returns an error if it is.
+  clonedAggregate.limit(limit || 1);
 
   // avoid large objects retrieval from collection
-  const slice = await clonedAggregate.project('_id');
+  const slice: Array<{ _id: ObjectId }> = await clonedAggregate.project('_id');
 
   const edges = slice.map((value, index) => ({
     cursor: offsetToCursor(startOffset + index),

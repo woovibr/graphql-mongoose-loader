@@ -35,8 +35,8 @@ export type TotalCountOptions = {
   cursor: Query,
 };
 
-export const getTotalCount = async ({ cursor }: TotalCountOptions) => {
-  const clonedCursor = cursor.model.find().merge(cursor);
+export const getTotalCount = async ({ cursor }: TotalCountOptions): Promise<number> => {
+  const clonedCursor: Query = cursor.model.find().merge(cursor);
 
   return await clonedCursor.count();
 };
@@ -66,8 +66,11 @@ export type Offsets = PageInfoOffsets & {
   limit: number,
 };
 
-export type PageInfoOptions = PageInfoOffsets & {
-  edges: Array<Object>,
+export type PageInfoOptions<NodeType> = PageInfoOffsets & {
+  edges: Array<{
+    cursor: string,
+    node: NodeType,
+  }>,
   totalCount: number,
 };
 
@@ -86,11 +89,12 @@ export const calculateOffsets = ({ args, totalCount }: OffsetOptions): Offsets =
   let startOffset = Math.max(-1, afterOffset) + 1;
   let endOffset = Math.min(totalCount, beforeOffset);
 
-  if (typeof first === 'number') {
+  if (first !== undefined) {
     endOffset = Math.min(endOffset, startOffset + first);
   }
-  if (typeof last === 'number') {
-    startOffset = Math.max(startOffset, endOffset - last);
+
+  if (last !== undefined) {
+    startOffset = Math.max(startOffset, endOffset - (last || 0));
   }
 
   const skip = Math.max(startOffset, 0);
@@ -113,7 +117,7 @@ export const calculateOffsets = ({ args, totalCount }: OffsetOptions): Offsets =
   };
 };
 
-export const getPageInfo = ({
+export function getPageInfo<NodeType>({
   edges,
   // before,
   // after,
@@ -126,7 +130,7 @@ export const getPageInfo = ({
   totalCount,
   startCursorOffset,
   endCursorOffset,
-}: PageInfoOptions) => {
+}: PageInfoOptions<NodeType>) {
   const firstEdge = edges[0];
   const lastEdge = edges[edges.length - 1];
 
@@ -141,7 +145,7 @@ export const getPageInfo = ({
     // hasPreviousPage: last !== null ? startOffset > lowerBound : false,
     // hasNextPage: first !== null ? endOffset < upperBound : false,
   };
-};
+}
 
 export type ConnectionOptionsCursor<LoaderResult, Ctx> = {
   cursor: Query,
@@ -156,9 +160,9 @@ async function connectionFromMongoCursor<LoaderResult, Ctx>({
   args = {},
   loader,
 }: ConnectionOptionsCursor<LoaderResult, Ctx>) {
-  const clonedCursor = cursor.model.find().merge(cursor);
+  const clonedCursor: Query = cursor.model.find().merge(cursor);
 
-  const totalCount = await getTotalCount({
+  const totalCount: number = await getTotalCount({
     cursor: clonedCursor,
   });
 
@@ -182,7 +186,7 @@ async function connectionFromMongoCursor<LoaderResult, Ctx>({
   clonedCursor.limit(limit);
 
   //avoid large objects retrieval from collection
-  const slice = await clonedCursor.select({ _id: 1 }).exec();
+  const slice: Array<{ _id: ObjectId }> = await clonedCursor.select({ _id: 1 }).exec();
 
   const edges = slice.map((value, index) => ({
     cursor: offsetToCursor(startOffset + index),
