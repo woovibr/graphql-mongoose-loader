@@ -53,7 +53,7 @@ Create a connection from mongoose cursor
 ```jsx
 import { connectionFromMongoCursor } from '@entria/graphql-mongoose-loader';
 
-export const loadUsers = async (context: GraphQLContext, args: ConnectionArgs) => {
+export const loadUsers = async (context: GraphQLContext, args: ConnectionArguments) => {
   const where = args.search
     ? {
         name: {
@@ -67,6 +67,50 @@ export const loadUsers = async (context: GraphQLContext, args: ConnectionArgs) =
 
   return connectionFromMongoCursor({
     cursor: users,
+    context,
+    args,
+    loader: load,
+  });
+};
+```
+
+## Connection from Mongoose Aggregate
+
+Create a connection from mongoose aggregate
+
+```jsx
+import { connectionFromMongoAggregate } from '@entria/graphql-mongoose-loader';
+
+export const loadUsersThatHaveGroup = async (context: GraphQLContext, args: ConnectionArguments) => {
+  const aggregate = GroupModel.aggregate([
+    {
+      $lookup: {
+        from: 'User',
+        localField: 'users',
+        foreignField: '_id',
+        as: 'users',
+      },
+    },
+    {
+      // remove empty groups
+      $match: { users: { $exists: true, $ne: [] } },
+    },
+    {
+      // promote each user to a new document
+      $unwind: '$users',
+    },
+    {
+      $sort: {
+        _id: 1,
+      },
+    },
+    {
+      $replaceRoot: { newRoot: '$users' },
+    },
+  ]);
+
+  return connectionFromMongoAggregate({
+    cursor: aggregate,
     context,
     args,
     loader: load,
