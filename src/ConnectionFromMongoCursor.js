@@ -31,13 +31,10 @@ export const getOffsetWithDefault = (cursor: ?string, defaultOffset: number): nu
  */
 export const offsetToCursor = (offset: number): string => base64(PREFIX + offset);
 
-// improve this
-export type MongooseCursor = any;
-
 export type TotalCountOptions = {
-  // MongoCursor
-  cursor: MongooseCursor,
+  cursor: Query,
 };
+
 export const getTotalCount = async ({ cursor }: TotalCountOptions) => {
   const clonedCursor = cursor.model.find().merge(cursor);
 
