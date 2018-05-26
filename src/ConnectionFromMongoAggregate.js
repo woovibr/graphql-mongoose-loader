@@ -53,7 +53,7 @@ async function connectionFromMongoAggregate<LoaderResult, Ctx>({
   // avoid large objects retrieval from collection
   const slice: Array<{ _id: ObjectId }> = await clonedAggregate.project('_id');
 
-  const edges = slice.map((value, index) => ({
+  const edges: Array<Object> = slice.map((value, index) => ({
     cursor: offsetToCursor(startOffset + index),
     node: loader(context, value._id),
   }));
