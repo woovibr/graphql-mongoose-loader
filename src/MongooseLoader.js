@@ -13,6 +13,7 @@ function indexResults(results, indexField, cacheKeyFn = key => key) {
 function normalizeResults(keys, indexField, cacheKeyFn = key => key) {
   return results => {
     const indexedResults = indexResults(results, indexField, cacheKeyFn);
+    // $FlowFixMe
     return keys.map(
       val => indexedResults.get(cacheKeyFn(val)) || new Error(`Key not found : ${val}`),
     );
