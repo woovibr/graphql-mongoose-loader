@@ -188,7 +188,10 @@ async function connectionFromMongoCursor<LoaderResult, Ctx>({
   // avoid large objects retrieval from collection
   const slice: Array<{ _id: ObjectId }> = await clonedCursor.select({ _id: 1 }).exec();
 
-  const edges: Array<Object> = slice.map((value, index) => ({
+  const edges: Array<{
+    cursor: string,
+    node: LoaderResult,
+  }> = slice.map((value, index) => ({
     cursor: offsetToCursor(startOffset + index),
     node: loader(context, value._id),
   }));
