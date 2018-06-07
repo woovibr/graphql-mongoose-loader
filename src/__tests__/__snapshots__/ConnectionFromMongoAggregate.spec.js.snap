@@ -40,6 +40,26 @@ Object {
 }
 `;
 
+exports[`should return connection from mongo aggregate with raw 1`] = `
+Object {
+  "count": 2,
+  "edges": Array [
+    Object {
+      "cursor": "bW9uZ286MA==",
+      "node": "user",
+    },
+  ],
+  "endCursorOffset": 1,
+  "pageInfo": Object {
+    "endCursor": "bW9uZ286MA==",
+    "hasNextPage": true,
+    "hasPreviousPage": false,
+    "startCursor": "bW9uZ286MA==",
+  },
+  "startCursorOffset": 0,
+}
+`;
+
 exports[`should work with empty args 1`] = `
 Object {
   "count": 2,
