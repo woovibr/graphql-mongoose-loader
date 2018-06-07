@@ -144,7 +144,7 @@ it('should work with empty args', async () => {
   expect(result).toMatchSnapshot();
 });
 
-it.only('should work with empty args and empty result', async () => {
+it('should work with empty args and empty result', async () => {
   // simple aggregate to return all users inside any group
   const aggregate = GroupModel.aggregate([
     {
@@ -192,4 +192,63 @@ it.only('should work with empty args and empty result', async () => {
 
   expect(loader).not.toHaveBeenCalled();
   expect(result).toMatchSnapshot();
+});
+
+it('should return connection from mongo aggregate with raw', async () => {
+  const userA = await createUser();
+  const userB = await createUser();
+  await createUser();
+  await createUser();
+
+  await createGroup({ users: [userA._id, userB._id] });
+
+  // simple aggregate to return all users inside any group
+  const aggregate = GroupModel.aggregate([
+    {
+      $lookup: {
+        from: 'User',
+        localField: 'users',
+        foreignField: '_id',
+        as: 'users',
+      },
+    },
+    {
+      // remove empty groups
+      $match: { users: { $exists: true, $ne: [] } },
+    },
+    {
+      // promote each user to a new document
+      $unwind: '$users',
+    },
+    {
+      $sort: {
+        _id: 1,
+      },
+    },
+    {
+      $replaceRoot: { newRoot: '$users' },
+    },
+  ]);
+
+  const context = {
+    // got it throwing a 🎲
+    randomValue: 1,
+  };
+
+  const loader = jest.fn();
+  loader.mockReturnValue('user');
+
+  const argsFirstPage = { first: 1 };
+
+  const resultFirstPage = await connectionFromMongoAggregate({
+    aggregate,
+    context,
+    args: argsFirstPage,
+    loader,
+    raw: true,
+  });
+
+  expect(loader).toHaveBeenCalledTimes(1);
+  expect(loader.mock.calls[0][1].name).toEqual(userA.name);
+  expect(resultFirstPage).toMatchSnapshot();
 });

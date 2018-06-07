@@ -188,7 +188,9 @@ async function connectionFromMongoCursor<LoaderResult, Ctx>({
   clonedCursor.limit(limit);
 
   // avoid large objects retrieval from collection
-  const slice: Array<{ _id: ObjectId }> = await clonedCursor.select({ _id: 1 }).exec();
+  const slice: Array<{ _id: ObjectId }> = await clonedCursor
+    .select(raw ? {} : { _id: 1 })
+    .exec();
 
   const edges: Array<{
     cursor: string,

@@ -113,3 +113,33 @@ it('should work with empty args and empty result', async () => {
   expect(loader).not.toHaveBeenCalled();
   expect(result).toMatchSnapshot();
 });
+
+it('should return connection from mongo cursor using raw', async () => {
+  const userA = await createUser();
+  const userB = await createUser();
+  const userC = await createUser();
+  const userD = await createUser();
+
+  const cursor = UserModel.find();
+  const context = {
+    // got it throwing a 🎲
+    randomValue: 2,
+  };
+
+  const loader = jest.fn();
+  loader.mockReturnValue('user');
+
+  const argsFirstPage = { first: 2 };
+
+  const resultFirstPage = await connectionFromMongoCursor({
+    cursor,
+    context,
+    args: argsFirstPage,
+    loader,
+    raw: true,
+  });
+
+  expect(loader).toHaveBeenCalledTimes(2);
+  expect(loader.mock.calls[0][1].name).toEqual(userA.name);
+  expect(resultFirstPage).toMatchSnapshot();
+});
