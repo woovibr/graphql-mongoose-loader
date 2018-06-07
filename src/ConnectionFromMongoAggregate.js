@@ -11,7 +11,8 @@ export type ConnectionOptionsAggregate<LoaderResult, Ctx> = {
   aggregate: Aggregate,
   context: Ctx,
   args: ConnectionArguments,
-  loader: (Ctx, string | ObjectId) => LoaderResult,
+  loader: (Ctx, string | ObjectId | Object) => LoaderResult,
+  raw: boolean, // loader should receive raw result
 };
 
 /**
@@ -23,6 +24,7 @@ async function connectionFromMongoAggregate<LoaderResult, Ctx>({
   context,
   args = {},
   loader,
+  raw = false,
 }: ConnectionOptionsAggregate<LoaderResult, Ctx>) {
   // https://github.com/Automattic/mongoose/blob/367261e6c83e7e367cf0d3fbd2edea4c64bf1ee2/lib/aggregate.js#L46
   const clonedAggregate = cloneAggregate(aggregate);
@@ -58,7 +60,7 @@ async function connectionFromMongoAggregate<LoaderResult, Ctx>({
     node: LoaderResult,
   }> = slice.map((value, index) => ({
     cursor: offsetToCursor(startOffset + index),
-    node: loader(context, value._id),
+    node: loader(context, raw ? value : value._id),
   }));
 
   return {

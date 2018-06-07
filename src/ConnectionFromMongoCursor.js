@@ -151,7 +151,8 @@ export type ConnectionOptionsCursor<LoaderResult, Ctx> = {
   cursor: Query,
   context: Ctx,
   args: ConnectionArguments,
-  loader: (Ctx, string | ObjectId) => LoaderResult,
+  loader: (Ctx, string | ObjectId | Object) => LoaderResult,
+  raw: boolean, // loader should receive raw result
 };
 
 async function connectionFromMongoCursor<LoaderResult, Ctx>({
@@ -159,6 +160,7 @@ async function connectionFromMongoCursor<LoaderResult, Ctx>({
   context,
   args = {},
   loader,
+  raw = false,
 }: ConnectionOptionsCursor<LoaderResult, Ctx>) {
   const clonedCursor: Query = cursor.model.find().merge(cursor);
 
@@ -193,7 +195,7 @@ async function connectionFromMongoCursor<LoaderResult, Ctx>({
     node: LoaderResult,
   }> = slice.map((value, index) => ({
     cursor: offsetToCursor(startOffset + index),
-    node: loader(context, value._id),
+    node: loader(context, raw ? value : value._id),
   }));
 
   return {

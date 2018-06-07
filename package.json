@@ -13,9 +13,9 @@
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
     "babel-eslint": "^8.2.3",
-    "babel-preset-flow": "^6.23.0",
     "babel-jest": "^22.4.3",
     "babel-preset-es2015": "^6.24.1",
+    "babel-preset-flow": "^6.23.0",
     "babel-preset-stage-0": "^6.24.1",
     "eslint": "^4.19.1",
     "eslint-plugin-flowtype": "^2.46.2",
@@ -33,6 +33,14 @@
     "prettier": "^1.12.1"
   },
   "homepage": "https://github.com/entria/graphql-mongoose-loader",
+  "jest": {
+    "testEnvironment": "<rootDir>/test/environment/mongodb",
+    "coverageReporters": [
+      "lcov",
+      "html"
+    ],
+    "resetModules": true
+  },
   "jsnext:main": "src/index.js",
   "keywords": [
     "graphql",
@@ -52,6 +60,9 @@
   "peerDependencies": {
     "graphql": "^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/entria/graphql-mongoose-loader"
@@ -60,24 +71,16 @@
     "build": "rm -rf lib/* && babel src --ignore *.spec.js --out-dir lib --copy-files && npm run build:flow",
     "build:flow": "bash scripts/build_flow.sh",
     "check": "npm run test",
+    "commitmsg": "commitlint -e $GIT_PARAMS",
     "flow:coverage": "flow-coverage-report -i 'src/**/*.js' -t html",
     "lint": "eslint src/**",
     "lint:staged": "lint-staged",
+    "precommit": "yarn lint:staged",
     "prepublish": "npm run build",
     "release:major": "npm run check && npm version major && git push --follow-tags",
     "release:minor": "npm run check && npm version minor && git push --follow-tags",
     "release:patch": "npm run check && npm version patch && git push --follow-tags",
     "test": "jest",
-    "test:watch": "jest --watch --coverage",
-    "precommit": "yarn lint:staged",
-    "commitmsg": "commitlint -e $GIT_PARAMS"
-  },
-  "jest": {
-    "testEnvironment": "<rootDir>/test/environment/mongodb",
-    "coverageReporters": [
-      "lcov",
-      "html"
-    ],
-    "resetModules": true
+    "test:watch": "jest --watch --coverage"
   }
 }
