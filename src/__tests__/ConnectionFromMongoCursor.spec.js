@@ -116,9 +116,9 @@ it('should work with empty args and empty result', async () => {
 
 it('should return connection from mongo cursor using raw', async () => {
   const userA = await createUser();
-  const userB = await createUser();
-  const userC = await createUser();
-  const userD = await createUser();
+  await createUser();
+  await createUser();
+  await createUser();
 
   const cursor = UserModel.find();
   const context = {
