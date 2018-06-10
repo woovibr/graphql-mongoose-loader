@@ -12,7 +12,7 @@ export type ConnectionOptionsAggregate<LoaderResult, Ctx> = {
   context: Ctx,
   args: ConnectionArguments,
   loader: (Ctx, string | ObjectId | Object) => LoaderResult,
-  raw: boolean, // loader should receive raw result
+  raw?: boolean, // loader should receive raw result
 };
 
 /**
