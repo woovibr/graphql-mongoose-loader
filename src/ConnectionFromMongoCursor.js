@@ -4,8 +4,8 @@ import type { ObjectId, Query } from 'mongoose';
 
 export const PREFIX = 'mongo:';
 
-export const base64 = (str: string): string => new Buffer(str, 'ascii').toString('base64');
-export const unbase64 = (b64: string): string => new Buffer(b64, 'base64').toString('ascii');
+export const base64 = (str: string): string =>  Buffer.from((str, 'ascii').toString('base64'));
+export const unbase64 = (b64: string): string =>  Buffer.from((b64, 'base64').toString('ascii'));
 
 /**
  * Rederives the offset from the cursor string
