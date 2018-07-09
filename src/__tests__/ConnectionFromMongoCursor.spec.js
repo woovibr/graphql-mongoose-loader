@@ -143,3 +143,38 @@ it('should return connection from mongo cursor using raw', async () => {
   expect(loader.mock.calls[0][1].name).toEqual(userA.name);
   expect(resultFirstPage).toMatchSnapshot();
 });
+
+it('should return connection from mongo cursor using first 1 and last as null', async () => {
+  await createUser();
+  await createUser();
+  await createUser();
+  await createUser();
+
+  const cursor = UserModel.find();
+  const context = {
+    // got it throwing a 🎲
+    randomValue: 2,
+  };
+
+  const loader = jest.fn();
+  loader.mockReturnValue('user');
+
+  const argsFirstPage = {
+    first: 1,
+    before: null,
+    last: null,
+    after: null,
+    search: '',
+  };
+
+  const resultFirstPage = await connectionFromMongoCursor({
+    cursor,
+    context,
+    args: argsFirstPage,
+    loader,
+    raw: true,
+  });
+
+  expect(resultFirstPage.edges.length).toBe(1);
+  expect(loader).toHaveBeenCalledTimes(1);
+});
