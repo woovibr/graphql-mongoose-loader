@@ -179,7 +179,7 @@ it('should return connection from mongo cursor using first 1 and last as null', 
   expect(loader).toHaveBeenCalledTimes(1);
 });
 
-it('should send empty set of edges when before offset is 0', async () => {
+it('should send the entire collection when before offset is 0', async () => {
   await createUser();
   await createUser();
   await createUser();
@@ -192,11 +192,7 @@ it('should send empty set of edges when before offset is 0', async () => {
   loader.mockReturnValue('user');
 
   const args = {
-    first: 1,
     before: offsetToCursor(0),
-    last: null,
-    after: null,
-    search: '',
   };
 
   const resultFirstPage = await connectionFromMongoCursor({
@@ -206,5 +202,6 @@ it('should send empty set of edges when before offset is 0', async () => {
     loader,
   });
 
+  expect(resultFirstPage.edges.length).not.toBe(4);
   expect(resultFirstPage.edges.length).toBe(0);
 });
