@@ -4,8 +4,8 @@ import type { ObjectId, Query } from 'mongoose';
 
 export const PREFIX = 'mongo:';
 
-export const base64 = (str: string): string =>  Buffer.from(str, 'ascii').toString('base64');
-export const unbase64 = (b64: string): string =>  Buffer.from(b64, 'base64').toString('ascii');
+export const base64 = (str: string): string => Buffer.from(str, 'ascii').toString('base64');
+export const unbase64 = (b64: string): string => Buffer.from(b64, 'base64').toString('ascii');
 
 /**
  * Rederives the offset from the cursor string
@@ -89,11 +89,11 @@ export const calculateOffsets = ({ args, totalCount }: OffsetOptions): Offsets =
   let startOffset = Math.max(-1, afterOffset) + 1;
   let endOffset = Math.min(totalCount, beforeOffset);
 
-  if (first !== undefined) {
+  if (first !== undefined && first !== null) {
     endOffset = Math.min(endOffset, startOffset + first);
   }
 
-  if (last !== undefined) {
+  if (last !== undefined && last !== null) {
     startOffset = Math.max(startOffset, endOffset - (last || 0));
   }
 
@@ -188,9 +188,7 @@ async function connectionFromMongoCursor<LoaderResult, Ctx>({
   clonedCursor.limit(limit);
 
   // avoid large objects retrieval from collection
-  const slice: Array<{ _id: ObjectId }> = await clonedCursor
-    .select(raw ? {} : { _id: 1 })
-    .exec();
+  const slice: Array<{ _id: ObjectId }> = await clonedCursor.select(raw ? {} : { _id: 1 }).exec();
 
   const edges: Array<{
     cursor: string,
