@@ -7,7 +7,7 @@ import {
   createUser,
 } from '../../test/helpers';
 
-import connectionFromMongoCursor from '../ConnectionFromMongoCursor';
+import connectionFromMongoCursor, { offsetToCursor } from '../ConnectionFromMongoCursor';
 import UserModel from '../../test/fixtures/UserModel';
 
 beforeAll(connectMongooseAndPopulate);
@@ -177,4 +177,34 @@ it('should return connection from mongo cursor using first 1 and last as null', 
 
   expect(resultFirstPage.edges.length).toBe(1);
   expect(loader).toHaveBeenCalledTimes(1);
+});
+
+it('should send empty set of edges when before offset is 0', async () => {
+  await createUser();
+  await createUser();
+  await createUser();
+  await createUser();
+
+  const cursor = UserModel.find();
+  const context = {};
+
+  const loader = jest.fn();
+  loader.mockReturnValue('user');
+
+  const args = {
+    first: 1,
+    before: offsetToCursor(0),
+    last: null,
+    after: null,
+    search: '',
+  };
+
+  const resultFirstPage = await connectionFromMongoCursor({
+    cursor,
+    context,
+    args,
+    loader,
+  });
+
+  expect(resultFirstPage.edges.length).toBe(0);
 });
