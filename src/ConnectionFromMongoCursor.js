@@ -187,16 +187,20 @@ async function connectionFromMongoCursor<LoaderResult, Ctx>({
   clonedCursor.skip(skip);
   clonedCursor.limit(limit);
 
-  // avoid large objects retrieval from collection
-  const slice: Array<{ _id: ObjectId }> = await clonedCursor.select(raw ? {} : { _id: 1 }).exec();
-
-  const edges: Array<{
+  let edges: Array<{
     cursor: string,
     node: LoaderResult,
-  }> = slice.map((value, index) => ({
-    cursor: offsetToCursor(startOffset + index),
-    node: loader(context, raw ? value : value._id),
-  }));
+  }> = [];
+
+  if (limit) {
+    // avoid large objects retrieval from collection
+    const slice: Array<{ _id: ObjectId }> = await clonedCursor.select(raw ? {} : { _id: 1 }).exec();
+
+    edges = slice.map((value, index) => ({
+      cursor: offsetToCursor(startOffset + index),
+      node: loader(context, raw ? value : value._id),
+    }));
+  }
 
   return {
     edges,
