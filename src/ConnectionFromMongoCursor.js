@@ -79,7 +79,7 @@ export const calculateOffsets = ({ args, totalCount }: OffsetOptions): Offsets =
   let { first, last } = args;
 
   // Limit the maximum number of elements in a query
-  if (!first && !last) first = 10;
+  if (!first && !last) first = last = 10;
   if (first && first > 1000) first = 1000;
   if (last && last > 1000) last = 1000;
 
@@ -192,15 +192,13 @@ async function connectionFromMongoCursor<LoaderResult, Ctx>({
     node: LoaderResult,
   }> = [];
 
-  if (limit) {
-    // avoid large objects retrieval from collection
-    const slice: Array<{ _id: ObjectId }> = await clonedCursor.select(raw ? {} : { _id: 1 }).exec();
+  // avoid large objects retrieval from collection
+  const slice: Array<{ _id: ObjectId }> = await clonedCursor.select(raw ? {} : { _id: 1 }).exec();
 
-    edges = slice.map((value, index) => ({
-      cursor: offsetToCursor(startOffset + index),
-      node: loader(context, raw ? value : value._id),
-    }));
-  }
+  edges = slice.map((value, index) => ({
+    cursor: offsetToCursor(startOffset + index),
+    node: loader(context, raw ? value : value._id),
+  }));
 
   return {
     edges,
