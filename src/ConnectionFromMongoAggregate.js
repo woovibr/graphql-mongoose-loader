@@ -1,14 +1,14 @@
 // @flow
 import type { ConnectionArguments } from 'graphql-relay';
-import type { Aggregate, ObjectId } from 'mongoose';
+import type { AggregateQuery, ObjectId } from 'mongoose';
 
 import { calculateOffsets, getPageInfo, offsetToCursor } from './ConnectionFromMongoCursor';
 
-const cloneAggregate = (aggregate: Aggregate): Aggregate =>
+const cloneAggregate = (aggregate: AggregateQuery): AggregateQuery =>
   aggregate._model.aggregate(aggregate.pipeline());
 
 export type ConnectionOptionsAggregate<LoaderResult, Ctx> = {
-  aggregate: Aggregate,
+  aggregate: AggregateQuery,
   context: Ctx,
   args: ConnectionArguments,
   loader: (Ctx, string | ObjectId | Object) => LoaderResult,
@@ -29,6 +29,7 @@ async function connectionFromMongoAggregate<LoaderResult, Ctx>({
   // https://github.com/Automattic/mongoose/blob/367261e6c83e7e367cf0d3fbd2edea4c64bf1ee2/lib/aggregate.js#L46
   const clonedAggregate = cloneAggregate(aggregate);
 
+  // $FlowFixMe
   const resultCount: Array<{ total: number }> = await cloneAggregate(aggregate).count('total');
   const totalCount = resultCount.length ? resultCount[0].total : 0;
 
@@ -53,7 +54,9 @@ async function connectionFromMongoAggregate<LoaderResult, Ctx>({
   clonedAggregate.limit(limit || 1);
 
   // avoid large objects retrieval from collection
-  const slice: Array<{ _id: ObjectId }> = await (raw ? clonedAggregate : clonedAggregate.project('_id'));
+  const slice: Array<{ _id: ObjectId }> = await (raw
+    ? clonedAggregate
+    : clonedAggregate.project('_id'));
 
   const edges: Array<{
     cursor: string,

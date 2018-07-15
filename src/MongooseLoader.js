@@ -22,11 +22,16 @@ function normalizeResults(keys, indexField, cacheKeyFn = key => key) {
 
 export const cacheKeyFn = (key: string) => key.toString();
 
-// TODO add types to mongoose
-type MongooseModel = {
-  find: (criteria: Object) => any,
+type MongooseProjection = Object | string;
+type Mongoose$Document = {
+  find(criteria?: Object, projection?: MongooseProjection, options?: Object): any,
 };
-export default async (model: MongooseModel, ids: Array<string>) => {
+
+export default async function mongooseLoader(
+  model: Mongoose$Document,
+  ids: $ReadOnlyArray<string>,
+) {
   const results = await model.find({ _id: { $in: ids } });
+
   return normalizeResults(ids, '_id', cacheKeyFn)(results);
-};
+}

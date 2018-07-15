@@ -32,11 +32,11 @@ export const getOffsetWithDefault = (cursor: ?string, defaultOffset: number): nu
 export const offsetToCursor = (offset: number): string => base64(PREFIX + offset);
 
 export type TotalCountOptions = {
-  cursor: Query,
+  cursor: Query<any, any>,
 };
 
 export const getTotalCount = async ({ cursor }: TotalCountOptions): Promise<number> => {
-  const clonedCursor: Query = cursor.model.find().merge(cursor);
+  const clonedCursor = cursor.model.find().merge(cursor);
 
   return await clonedCursor.count();
 };
@@ -148,7 +148,7 @@ export function getPageInfo<NodeType>({
 }
 
 export type ConnectionOptionsCursor<LoaderResult, Ctx> = {
-  cursor: Query,
+  cursor: Query<any, any>,
   context: Ctx,
   args: ConnectionArguments,
   loader: (Ctx, string | ObjectId | Object) => LoaderResult,
@@ -162,7 +162,7 @@ async function connectionFromMongoCursor<LoaderResult, Ctx>({
   loader,
   raw = false,
 }: ConnectionOptionsCursor<LoaderResult, Ctx>) {
-  const clonedCursor: Query = cursor.model.find().merge(cursor);
+  const clonedCursor = cursor.model.find().merge(cursor);
 
   const totalCount: number = await getTotalCount({
     cursor: clonedCursor,
@@ -188,6 +188,7 @@ async function connectionFromMongoCursor<LoaderResult, Ctx>({
   clonedCursor.limit(limit);
 
   // avoid large objects retrieval from collection
+  // $FlowFixMe
   const slice: Array<{ _id: ObjectId }> = await clonedCursor.select(raw ? {} : { _id: 1 }).exec();
 
   const edges: Array<{
