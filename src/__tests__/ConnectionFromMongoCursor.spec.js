@@ -1,5 +1,4 @@
 // @flow'
-
 import {
   clearDbAndRestartCounters,
   connectMongooseAndPopulate,
@@ -7,7 +6,7 @@ import {
   createUser,
 } from '../../test/helpers';
 
-import connectionFromMongoCursor from '../ConnectionFromMongoCursor';
+import connectionFromMongoCursor, { offsetToCursor } from '../ConnectionFromMongoCursor';
 import UserModel from '../../test/fixtures/UserModel';
 
 beforeAll(connectMongooseAndPopulate);
@@ -177,4 +176,42 @@ it('should return connection from mongo cursor using first 1 and last as null', 
 
   expect(resultFirstPage.edges.length).toBe(1);
   expect(loader).toHaveBeenCalledTimes(1);
+});
+
+it('should not send the entire collection when before offset is 0', async () => {
+  await Promise.all(Array.from({ length: 50 }).map(createUser));
+
+  const cursor = UserModel.find();
+  const context = {};
+
+  const loader = jest.fn();
+  loader.mockReturnValue('user');
+
+  const args1 = {
+    before: offsetToCursor(0),
+  };
+
+  const args2 = {
+    before: offsetToCursor(0),
+    last: 9,
+  };
+
+  const resultArgs1 = await connectionFromMongoCursor({
+    cursor,
+    context,
+    args: args1,
+    loader,
+  });
+  const resultArgs2 = await connectionFromMongoCursor({
+    cursor,
+    context,
+    args: args2,
+    loader,
+  });
+
+  expect(resultArgs1.edges.length).not.toBe(50);
+  expect(resultArgs2.edges.length).not.toBe(50);
+
+  expect(resultArgs1.edges.length).toBe(10);
+  expect(resultArgs2.edges.length).toBe(9);
 });

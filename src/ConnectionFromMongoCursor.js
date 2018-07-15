@@ -79,7 +79,8 @@ export const calculateOffsets = ({ args, totalCount }: OffsetOptions): Offsets =
   let { first, last } = args;
 
   // Limit the maximum number of elements in a query
-  if (!first && !last) first = 10;
+  if (!first) first = 10;
+  if (!last) last = 10;
   if (first && first > 1000) first = 1000;
   if (last && last > 1000) last = 1000;
 
