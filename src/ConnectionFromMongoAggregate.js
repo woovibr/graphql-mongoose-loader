@@ -32,7 +32,9 @@ async function connectionFromMongoAggregate<LoaderResult, Ctx>({
   const clonedAggregate = cloneAggregate(aggregate).allowDiskUse(allowDiskUse);
 
   // $FlowFixMe
-  const resultCount: Array<{ total: number }> = await cloneAggregate(aggregate).count('total');
+  const resultCount: Array<{ total: number }> = await cloneAggregate(aggregate)
+    .allowDiskUse(allowDiskUse)
+    .count('total');
   const totalCount = resultCount.length ? resultCount[0].total : 0;
 
   const {
