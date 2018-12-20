@@ -252,3 +252,59 @@ it('should return connection from mongo aggregate with raw', async () => {
   expect(loader.mock.calls[0][1].name).toEqual(userA.name);
   expect(resultFirstPage).toMatchSnapshot();
 });
+
+it('should not return negative limit', async () => {
+  const userA = await createUser();
+  const userB = await createUser();
+  await createUser();
+  await createUser();
+
+  await createGroup({ users: [userA._id, userB._id] });
+
+  // simple aggregate to return all users inside any group
+  const aggregate = GroupModel.aggregate([
+    {
+      $lookup: {
+        from: 'User',
+        localField: 'users',
+        foreignField: '_id',
+        as: 'users',
+      },
+    },
+    {
+      // remove empty groups
+      $match: { users: { $exists: true, $ne: [] } },
+    },
+    {
+      // promote each user to a new document
+      $unwind: '$users',
+    },
+    {
+      $sort: {
+        _id: 1,
+      },
+    },
+    {
+      $replaceRoot: { newRoot: '$users' },
+    },
+  ]);
+
+  const context = {
+    // got it throwing a 🎲
+    randomValue: 1,
+  };
+
+  const loader = jest.fn();
+  loader.mockReturnValue('user');
+
+  const args = { first: 10, after: 'bW9uZ286OQ==' };
+
+  const result = await connectionFromMongoAggregate({
+    aggregate,
+    context,
+    args: args,
+    loader,
+  });
+
+  expect(result).toMatchSnapshot();
+});

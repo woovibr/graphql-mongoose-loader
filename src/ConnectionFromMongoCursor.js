@@ -99,7 +99,8 @@ export const calculateOffsets = ({ args, totalCount }: OffsetOptions): Offsets =
 
   const skip = Math.max(startOffset, 0);
 
-  const limit = endOffset - startOffset;
+  const safeLimit = Math.max(endOffset - startOffset, 1);
+  const limitOffset = Math.max(endOffset - startOffset, 0);
 
   return {
     first,
@@ -107,13 +108,13 @@ export const calculateOffsets = ({ args, totalCount }: OffsetOptions): Offsets =
     before,
     after,
     skip,
-    limit,
+    limit: safeLimit,
     beforeOffset,
     afterOffset,
     startOffset,
     endOffset,
     startCursorOffset: skip,
-    endCursorOffset: limit + skip,
+    endCursorOffset: limitOffset + skip,
   };
 };
 

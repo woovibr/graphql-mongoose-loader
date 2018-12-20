@@ -1,5 +1,20 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`should not return negative limit 1`] = `
+Object {
+  "count": 2,
+  "edges": Array [],
+  "endCursorOffset": 10,
+  "pageInfo": Object {
+    "endCursor": null,
+    "hasNextPage": false,
+    "hasPreviousPage": true,
+    "startCursor": null,
+  },
+  "startCursorOffset": 10,
+}
+`;
+
 exports[`should return connection from mongo aggregate 1`] = `
 Object {
   "count": 2,
