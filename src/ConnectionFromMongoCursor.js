@@ -99,7 +99,7 @@ export const calculateOffsets = ({ args, totalCount }: OffsetOptions): Offsets =
 
   const skip = Math.max(startOffset, 0);
 
-  const limit = endOffset - startOffset;
+  const limit = Math.max(endOffset - startOffset, 1);
 
   return {
     first,
