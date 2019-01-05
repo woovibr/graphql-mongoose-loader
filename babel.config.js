@@ -1,5 +1,16 @@
 module.exports = {
-  presets: ['@babel/preset-flow', '@babel/preset-typescript'],
+  presets: [
+    '@babel/preset-flow',
+    [
+      '@babel/preset-env',
+      {
+        targets: {
+          node: 'current',
+        },
+      },
+    ],
+    '@babel/preset-typescript',
+  ],
   plugins: [
     '@babel/plugin-proposal-object-rest-spread',
     '@babel/plugin-proposal-class-properties',
