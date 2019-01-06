@@ -1,17 +1,17 @@
-// @flow
-import type { ConnectionArguments } from 'graphql-relay';
-import type { AggregateQuery, ObjectId } from 'mongoose';
+import { ConnectionArguments } from 'graphql-relay';
+import mongoose, { Aggregate } from 'mongoose';
 
 import { calculateOffsets, getPageInfo, offsetToCursor } from './ConnectionFromMongoCursor';
+type ObjectId = mongoose.Schema.Types.ObjectId;
 
-const cloneAggregate = (aggregate: AggregateQuery): AggregateQuery =>
+const cloneAggregate = (aggregate: Aggregate<any>): Aggregate<any> =>
   aggregate._model.aggregate(aggregate.pipeline());
 
 export type ConnectionOptionsAggregate<LoaderResult, Ctx> = {
-  aggregate: AggregateQuery,
+  aggregate: Aggregate<any>,
   context: Ctx,
   args: ConnectionArguments,
-  loader: (Ctx, string | ObjectId | Object) => LoaderResult,
+  loader: (ctx: Ctx, id: string | ObjectId | Object) => LoaderResult,
   raw?: boolean, // loader should receive raw result
   allowDiskUse?: boolean,
 };
@@ -31,7 +31,6 @@ async function connectionFromMongoAggregate<LoaderResult, Ctx>({
   // https://github.com/Automattic/mongoose/blob/367261e6c83e7e367cf0d3fbd2edea4c64bf1ee2/lib/aggregate.js#L46
   const clonedAggregate = cloneAggregate(aggregate).allowDiskUse(allowDiskUse);
 
-  // $FlowFixMe
   const resultCount: Array<{ total: number }> = await cloneAggregate(aggregate)
     .allowDiskUse(allowDiskUse)
     .count('total');
@@ -93,3 +92,4 @@ async function connectionFromMongoAggregate<LoaderResult, Ctx>({
 }
 
 export default connectionFromMongoAggregate;
+ 
