@@ -4,10 +4,10 @@ module.exports = {
   testPathIgnorePatterns: ['/node_modules/', './lib', './scripts'],
   coverageReporters: ['lcov', 'html'],
   resetModules: false,
+  reporters: ['default'],
   transform: {
-    '^.+\\.js?$': '<rootDir>/node_modules/babel-jest',
-    '^.+\\.ts?$': '<rootDir>/node_modules/babel-jest',
+    '^.+\\.(js|ts)?$': '<rootDir>/test/babel-transformer',
   },
-  testRegex: '(/__tests__/.*|(\\.|/)(test|spec))\\.(js?|ts?)$',
+  testRegex: '(/__tests__/.*|(\\.|/)(test|spec))\\.(js|ts)?$',
   moduleFileExtensions: ['ts', 'js'],
 };

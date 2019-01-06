@@ -1,5 +1,3 @@
-// @flow
-
 import mongoose from 'mongoose';
 
 import UserModel from '../test/fixtures/UserModel';
@@ -46,7 +44,7 @@ export async function clearDbAndRestartCounters() {
   restartCounters();
 }
 
-export const createUser = async (args: $FlowFixMe = {}) => {
+export const createUser = async (args: any = {}) => {
   const n = (global.__COUNTERS__.user += 1);
 
   return new UserModel({
@@ -55,7 +53,7 @@ export const createUser = async (args: $FlowFixMe = {}) => {
   }).save();
 };
 
-export const createGroup = async (args: $FlowFixMe = {}) => {
+export const createGroup = async (args: any = {}) => {
   const n = (global.__COUNTERS__.group += 1);
 
   return new GroupModel({
