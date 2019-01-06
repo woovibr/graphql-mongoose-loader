@@ -1187,11 +1187,6 @@ babel-core@^6.0.0, babel-core@^6.26.0:
     slash "^1.0.0"
     source-map "^0.5.7"
 
-babel-core@^7.0.0-bridge.0:
-  version "7.0.0-bridge.0"
-  resolved "https://registry.yarnpkg.com/babel-core/-/babel-core-7.0.0-bridge.0.tgz#95a492ddd90f9b4e9a4a1da14eb335b87b634ece"
-  integrity sha512-poPX9mZH/5CSanm50Q+1toVci6pv5KSRv/5TWCwtzQS5XEwn40BcCrgIeMFWP9CKKIniKXNxoIOnOq4VVlGXhg==
-
 babel-eslint@9.0.0:
   version "9.0.0"
   resolved "https://registry.yarnpkg.com/babel-eslint/-/babel-eslint-9.0.0.tgz#7d9445f81ed9f60aff38115f838970df9f2b6220"
@@ -2925,7 +2920,7 @@ fsevents@^1.2.2, fsevents@^1.2.3:
     nan "^2.9.2"
     node-pre-gyp "^0.10.0"
   prebuiltVariants:
-    fsevents-v1.2.4-darwin-x64-64 "7a56805b14068b57c450a468c75166abb7ff86b0"
+    fsevents-v1.2.4-darwin-x64-64 "506470987bf7f2f5ab8956b52f00f0faf7409696"
 
 function-bind@^1.1.1:
   version "1.1.1"
@@ -3270,7 +3265,7 @@ husky@^0.14.3:
     normalize-path "^1.0.0"
     strip-indent "^2.0.0"
   prebuiltVariants:
-    husky-v0.14.3-darwin-x64-64 b042ffd2011757bb669bdc3e88547e58cfc58dcf
+    husky-v0.14.3-darwin-x64-64 "422b310af9e123a5665749ec2ccea0f6483f7ec1"
 
 iconv-lite@0.4.24, iconv-lite@^0.4.24, iconv-lite@^0.4.4, iconv-lite@~0.4.13:
   version "0.4.24"
@@ -4781,7 +4776,7 @@ mongodb-memory-server@^1.9.0:
     tmp "^0.0.33"
     uuid "^3.2.1"
   prebuiltVariants:
-    mongodb-memory-server-v1.9.3-darwin-x64-64 "40721b661321b6d51432342fc3e8aaff5a165255"
+    mongodb-memory-server-v1.9.3-darwin-x64-64 "70d3e425d29fc4a859e01a87e8fcef91b1eefa58"
 
 mongodb@3.1.10:
   version "3.1.10"
