@@ -1,6 +1,6 @@
-// @flow
-import type { ConnectionArguments } from 'graphql-relay';
-import type { ObjectId, Query } from 'mongoose';
+import { ConnectionArguments } from 'graphql-relay';
+import mongoose, { Query } from 'mongoose';
+type ObjectId = mongoose.Schema.Types.ObjectId;
 
 export const PREFIX = 'mongo:';
 
@@ -18,7 +18,7 @@ export const cursorToOffset = (cursor: string): number =>
  * if the cursor contains a valid offset, that will be used, otherwise it will
  * be the default.
  */
-export const getOffsetWithDefault = (cursor: ?string, defaultOffset: number): number => {
+export const getOffsetWithDefault = (cursor: string | null, defaultOffset: number): number => {
   if (cursor === undefined || cursor === null) {
     return defaultOffset;
   }
@@ -32,7 +32,7 @@ export const getOffsetWithDefault = (cursor: ?string, defaultOffset: number): nu
 export const offsetToCursor = (offset: number): string => base64(PREFIX + offset);
 
 export type TotalCountOptions = {
-  cursor: Query<any, any>,
+  cursor: Query<any>,
 };
 
 export const getTotalCount = async ({ cursor }: TotalCountOptions): Promise<number> => {
@@ -49,10 +49,10 @@ export type OffsetOptions = {
 };
 
 export type PageInfoOffsets = {
-  before: ?string,
-  after: ?string,
-  first: ?number,
-  last: ?number,
+  before: string | null,
+  after: string | null,
+  first: number | null,
+  last: number | null,
   afterOffset: number,
   beforeOffset: number,
   startOffset: number,
@@ -83,8 +83,8 @@ export const calculateOffsets = ({ args, totalCount }: OffsetOptions): Offsets =
   if (first && first > 1000) first = 1000;
   if (last && last > 1000) last = 1000;
 
-  const beforeOffset = getOffsetWithDefault(before, totalCount);
-  const afterOffset = getOffsetWithDefault(after, -1);
+  const beforeOffset = getOffsetWithDefault(before || null, totalCount);
+  const afterOffset = getOffsetWithDefault(after || null, -1);
 
   let startOffset = Math.max(-1, afterOffset) + 1;
   let endOffset = Math.min(totalCount, beforeOffset);
@@ -103,10 +103,10 @@ export const calculateOffsets = ({ args, totalCount }: OffsetOptions): Offsets =
   const limitOffset = Math.max(endOffset - startOffset, 0);
 
   return {
-    first,
-    last,
-    before,
-    after,
+    first: first || null,
+    last: last || null,
+    before: before || null,
+    after: after || null,
     skip,
     limit: safeLimit,
     beforeOffset,
@@ -149,10 +149,10 @@ export function getPageInfo<NodeType>({
 }
 
 export type ConnectionOptionsCursor<LoaderResult, Ctx> = {
-  cursor: Query<any, any>,
+  cursor: Query<any>,
   context: Ctx,
   args: ConnectionArguments,
-  loader: (Ctx, string | ObjectId | Object) => LoaderResult,
+  loader: (ctx: Ctx, id: string | ObjectId | Object) => LoaderResult,
   raw?: boolean, // loader should receive raw result
 };
 
@@ -189,7 +189,6 @@ async function connectionFromMongoCursor<LoaderResult, Ctx>({
   clonedCursor.limit(limit);
 
   // avoid large objects retrieval from collection
-  // $FlowFixMe
   const slice: Array<{ _id: ObjectId }> = await clonedCursor.select(raw ? {} : { _id: 1 }).exec();
 
   const edges: Array<{
