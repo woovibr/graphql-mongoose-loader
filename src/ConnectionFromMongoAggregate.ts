@@ -5,6 +5,7 @@ import { calculateOffsets, getPageInfo, offsetToCursor } from './ConnectionFromM
 type ObjectId = mongoose.Schema.Types.ObjectId;
 
 const cloneAggregate = (aggregate: Aggregate<any>): Aggregate<any> =>
+  // @ts-ignore
   aggregate._model.aggregate(aggregate.pipeline());
 
 export type ConnectionOptionsAggregate<LoaderResult, Ctx> = {
