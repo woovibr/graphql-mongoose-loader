@@ -92,4 +92,3 @@ async function connectionFromMongoAggregate<LoaderResult, Ctx>({
 }
 
 export default connectionFromMongoAggregate;
- 

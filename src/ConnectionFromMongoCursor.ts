@@ -38,7 +38,7 @@ export type TotalCountOptions = {
 export const getTotalCount = async ({ cursor }: TotalCountOptions): Promise<number> => {
   const clonedCursor = cursor.model.find().merge(cursor);
 
-  return await clonedCursor.count();
+  return await clonedCursor.estimatedDocumentCount();
 };
 
 export type OffsetOptions = {
