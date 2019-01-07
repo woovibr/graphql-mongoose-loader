@@ -20,9 +20,9 @@ jobs:
           key: v0-npm-{{ .Branch }}-{{ checksum "yarn.lock" }}
           paths:
             - node_modules/
-      - run:
-          name: Run lint
-          command: yarn lint
+#      - run:
+#          name: Run lint
+#          command: yarn lint
       - run:
           name: Run tests
           command: yarn test
