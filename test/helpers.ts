@@ -11,11 +11,32 @@ const mongooseOptions = {
   connectTimeoutMS: 10000,
 };
 
+export interface TestGlobal extends NodeJS.Global {
+  __COUNTERS__: object,
+  __MONGO_URI__: string,
+  __MONGO_DB_NAME__: string,
+}
+
+declare const global: TestGlobal;
+
+export const getCounter = (key: string) => {
+  if (key in global.__COUNTERS__) {
+    // @ts-ignore
+    const currentValue = global.__COUNTERS__[key];
+
+    // @ts-ignore
+    global.__COUNTERS__[key]++;
+
+    return currentValue;
+  }
+
+  // @ts-ignore
+  global.__COUNTERS__[key] = 0;
+  return 0;
+};
+
 export const restartCounters = () => {
-  global.__COUNTERS__ = Object.keys(global.__COUNTERS__).reduce(
-    (prev, curr) => ({ ...prev, [curr]: 0 }),
-    {},
-  );
+  global.__COUNTERS__ = {}
 };
 
 export async function connectMongoose() {
@@ -47,7 +68,7 @@ export async function clearDbAndRestartCounters() {
 }
 
 export const createUser = async (args: any = {}) => {
-  const n = (global.__COUNTERS__.user += 1);
+  const n = getCounter('user');
 
   return new UserModel({
     name: `User ${n}`,
@@ -56,7 +77,7 @@ export const createUser = async (args: any = {}) => {
 };
 
 export const createGroup = async (args: any = {}) => {
-  const n = (global.__COUNTERS__.group += 1);
+  const n = getCounter('group');
 
   return new GroupModel({
     name: `Group ${n}`,

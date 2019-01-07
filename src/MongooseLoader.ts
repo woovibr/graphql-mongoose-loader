@@ -11,7 +11,7 @@ function indexResults(results: any[], indexField: string, cacheKey = cacheKeyFn)
 }
 
 function normalizeResults(keys : ReadonlyArray<string>, indexField: string, cacheKey = cacheKeyFn) {
-  return results => {
+  return (results: any[]) => {
     const indexedResults = indexResults(results, indexField, cacheKey);
     return keys.map(
       val => indexedResults.get(cacheKey(val)) || new Error(`Key not found : ${val}`),
