@@ -43,7 +43,8 @@
     "mongodb-memory-server": "^2.9.1",
     "mongoose": "^5.2.3",
     "prettier": "^1.13.7",
-    "tslint": "^5.12.0"
+    "tslint": "^5.12.0",
+    "typescript": "3.2.2"
   },
   "homepage": "https://github.com/entria/graphql-mongoose-loader",
   "jsnext:main": "src/index.js",
@@ -78,8 +79,9 @@
     "type": "git",
     "url": "git+https://github.com/entria/graphql-mongoose-loader"
   },
+  "typings": "lib/index.d.ts",
   "scripts": {
-    "build": "rm -rf lib/* && babel src --extensions \".es6,.js,.es,.mjs,.ts\" --ignore src/**/*.spec.ts,src/**/*.test.ts --out-dir lib --copy-files --source-maps --verbose",
+    "build": "rm -rf lib/* && babel src --extensions \".es6,.js,.es,.mjs,.ts\" --ignore src/**/*.spec.ts,src/**/*.test.ts --out-dir lib --copy-files --source-maps --verbose && tsc -p tsconfig.base.json",
     "build:flow": "bash scripts/build_flow.sh",
     "check": "npm run test",
     "commitmsg": "commitlint -e $GIT_PARAMS",
