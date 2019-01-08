@@ -78,8 +78,9 @@
     "type": "git",
     "url": "git+https://github.com/entria/graphql-mongoose-loader"
   },
+  "typings": "lib/index.d.ts",
   "scripts": {
-    "build": "rm -rf lib/* && babel src --extensions \".es6,.js,.es,.mjs,.ts\" --ignore src/**/*.spec.ts,src/**/*.test.ts --out-dir lib --copy-files --source-maps --verbose",
+    "build": "rm -rf lib/* && babel src --extensions \".es6,.js,.es,.mjs,.ts\" --ignore src/**/*.spec.ts,src/**/*.test.ts --out-dir lib --copy-files --source-maps --verbose && tsc -p tsconfig.base.json",
     "build:flow": "bash scripts/build_flow.sh",
     "check": "npm run test",
     "commitmsg": "commitlint -e $GIT_PARAMS",
