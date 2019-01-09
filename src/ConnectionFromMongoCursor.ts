@@ -40,7 +40,7 @@ export const getTotalCount = async ({ cursor, useEstimatedCount = false }: Total
   // @ts-ignore
   const clonedCursor = cursor.model.find().merge(cursor);
 
-  return await useEstimatedCount ? clonedCursor.estimatedDocumentCount() : clonedCursor.count();
+  return await useEstimatedCount ? clonedCursor.estimatedDocumentCount() : clonedCursor.countDocuments();
 };
 
 export type OffsetOptions = {
