@@ -33,13 +33,14 @@ export const offsetToCursor = (offset: number): string => base64(PREFIX + offset
 
 export type TotalCountOptions = {
   cursor: Query<any>,
+  useEstimatedCount?: boolean,
 };
 
-export const getTotalCount = async ({ cursor }: TotalCountOptions): Promise<number> => {
+export const getTotalCount = async ({ cursor, useEstimatedCount = false }: TotalCountOptions): Promise<number> => {
   // @ts-ignore
   const clonedCursor = cursor.model.find().merge(cursor);
 
-  return await clonedCursor.estimatedDocumentCount();
+  return await useEstimatedCount ? clonedCursor.estimatedDocumentCount() : clonedCursor.count();
 };
 
 export type OffsetOptions = {
@@ -155,6 +156,7 @@ export type ConnectionOptionsCursor<LoaderResult, Ctx> = {
   args: ConnectionArguments,
   loader: (ctx: Ctx, id: string | ObjectId | Object) => LoaderResult,
   raw?: boolean, // loader should receive raw result
+  useEstimatedCount?: boolean,
 };
 
 async function connectionFromMongoCursor<LoaderResult, Ctx>({
@@ -163,12 +165,14 @@ async function connectionFromMongoCursor<LoaderResult, Ctx>({
   args = {},
   loader,
   raw = false,
+  useEstimatedCount = false,
 }: ConnectionOptionsCursor<LoaderResult, Ctx>) {
   // @ts-ignore
   const clonedCursor = cursor.model.find().merge(cursor);
 
   const totalCount: number = await getTotalCount({
     cursor: clonedCursor,
+    useEstimatedCount,
   });
 
   const {
