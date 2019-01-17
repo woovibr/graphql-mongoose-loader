@@ -154,7 +154,7 @@ export type ConnectionOptionsCursor<LoaderResult, Ctx> = {
   cursor: Query<any>,
   context: Ctx,
   args: ConnectionArguments,
-  loader: (ctx: Ctx, id: string | ObjectId | Object) => LoaderResult,
+  loader: (ctx: Ctx, id: string | ObjectId | object) => LoaderResult,
   raw?: boolean, // loader should receive raw result
   useEstimatedCount?: boolean,
 };
