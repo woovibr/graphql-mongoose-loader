@@ -38,7 +38,7 @@ export type TotalCountOptions = {
 
 export const getTotalCount = async ({ cursor, useEstimatedCount = false }: TotalCountOptions): Promise<number> => {
   // @ts-ignore
-  const clonedCursor = cursor.model.find().merge(cursor);
+  const clonedCursor = cursor.model.find().lean().merge(cursor);
 
   return await useEstimatedCount ? clonedCursor.estimatedDocumentCount() : clonedCursor.countDocuments();
 };
@@ -168,7 +168,7 @@ async function connectionFromMongoCursor<LoaderResult, Ctx>({
   useEstimatedCount = false,
 }: ConnectionOptionsCursor<LoaderResult, Ctx>) {
   // @ts-ignore
-  const clonedCursor = cursor.model.find().merge(cursor);
+  const clonedCursor = cursor.model.find().lean().merge(cursor);
 
   const totalCount: number = await getTotalCount({
     cursor: clonedCursor,

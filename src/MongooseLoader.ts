@@ -30,7 +30,7 @@ export default async function mongooseLoader(
   model: Mongoose$Document,
   ids: ReadonlyArray<string>,
 ) {
-  const results = await model.find({ _id: { $in: ids } });
+  const results = await model.find({ _id: { $in: ids } }).lean();
 
   return normalizeResults(ids, '_id', cacheKeyFn)(results);
 }
