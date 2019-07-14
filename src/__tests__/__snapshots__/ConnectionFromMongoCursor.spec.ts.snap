@@ -48,6 +48,54 @@ Object {
 }
 `;
 
+exports[`should return connection from mongo cursor using lean equals false 1`] = `
+Object {
+  "count": 4,
+  "edges": Array [
+    Object {
+      "cursor": "bW9uZ286MA==",
+      "node": "user",
+    },
+    Object {
+      "cursor": "bW9uZ286MQ==",
+      "node": "user",
+    },
+  ],
+  "endCursorOffset": 2,
+  "pageInfo": Object {
+    "endCursor": "bW9uZ286MQ==",
+    "hasNextPage": true,
+    "hasPreviousPage": false,
+    "startCursor": "bW9uZ286MA==",
+  },
+  "startCursorOffset": 0,
+}
+`;
+
+exports[`should return connection from mongo cursor using lean equals false 2`] = `
+Object {
+  "count": 4,
+  "edges": Array [
+    Object {
+      "cursor": "bW9uZ286Mg==",
+      "node": "user",
+    },
+    Object {
+      "cursor": "bW9uZ286Mw==",
+      "node": "user",
+    },
+  ],
+  "endCursorOffset": 4,
+  "pageInfo": Object {
+    "endCursor": "bW9uZ286Mw==",
+    "hasNextPage": false,
+    "hasPreviousPage": true,
+    "startCursor": "bW9uZ286Mg==",
+  },
+  "startCursorOffset": 2,
+}
+`;
+
 exports[`should return connection from mongo cursor using raw 1`] = `
 Object {
   "count": 4,
