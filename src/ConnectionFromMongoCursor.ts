@@ -34,11 +34,12 @@ export const offsetToCursor = (offset: number): string => base64(PREFIX + offset
 export type TotalCountOptions = {
   cursor: Query<any>,
   useEstimatedCount?: boolean,
+  lean: boolean,
 };
 
-export const getTotalCount = async ({ cursor, useEstimatedCount = false }: TotalCountOptions): Promise<number> => {
+export const getTotalCount = async ({ cursor, useEstimatedCount = false, lean = true }: TotalCountOptions): Promise<number> => {
   // @ts-ignore
-  const clonedCursor = cursor.model.find().lean().merge(cursor);
+  const clonedCursor = lean ? cursor.model.find().lean().merge(cursor) : cursor.model.find().merge(cursor);
 
   return await useEstimatedCount ? clonedCursor.estimatedDocumentCount() : clonedCursor.countDocuments();
 };
@@ -157,6 +158,7 @@ export type ConnectionOptionsCursor<LoaderResult, Ctx> = {
   loader: (ctx: Ctx, id: string | ObjectId | object) => LoaderResult,
   raw?: boolean, // loader should receive raw result
   useEstimatedCount?: boolean,
+  lean?: boolean,
 };
 
 async function connectionFromMongoCursor<LoaderResult, Ctx>({
@@ -166,13 +168,15 @@ async function connectionFromMongoCursor<LoaderResult, Ctx>({
   loader,
   raw = false,
   useEstimatedCount = false,
+  lean = true,
 }: ConnectionOptionsCursor<LoaderResult, Ctx>) {
   // @ts-ignore
-  const clonedCursor = cursor.model.find().lean().merge(cursor);
+  const clonedCursor = lean ? cursor.model.find().lean().merge(cursor) : cursor.model.find().merge(cursor);
 
   const totalCount: number = await getTotalCount({
     cursor: clonedCursor,
     useEstimatedCount,
+    lean,
   });
 
   const {
