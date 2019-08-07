@@ -1,7 +1,7 @@
 {
   "name": "@entria/graphql-mongoose-loader",
   "description": "GraphQL Mongoose Loader helpers",
-  "version": "4.1.0",
+  "version": "4.2.0",
   "author": {
     "name": "Entria",
     "email": "dev@entria.com.br",
