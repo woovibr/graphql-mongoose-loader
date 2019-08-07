@@ -46,3 +46,14 @@ it('should batch user load without lean', async () => {
   expect(userAData._id.toString()).toBe(userA._id.toString())
   expect(userBData._id.toString()).toBe(userB._id.toString())
 });
+
+it('should load based on custom key', async () => {
+  const userName = 'user-a';
+  const userA = await createUser({ userName });
+
+  const userDataloader = new DataLoader(ids => mongooseLoader(UserModel, ids, true, 'userName'));
+
+  const userAData = await userDataloader.load(userA.userName);
+
+  expect(userAData.userName).toBe(userA.userName);
+})
