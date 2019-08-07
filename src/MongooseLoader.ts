@@ -28,10 +28,11 @@ type Mongoose$Document = {
 
 export default async function mongooseLoader(
   model: Mongoose$Document,
-  ids: ReadonlyArray<string>,
+  keys: ReadonlyArray<string>,
   lean: boolean = true,
+  keyField: string = '_id'
 ) {
-  const results = lean ? await model.find({ _id: { $in: ids } }).lean() : await model.find({ _id: { $in: ids } });
+  const results = lean ? await model.find({ [keyField]: { $in: keys } }).lean() : await model.find({ [keyField]: { $in: keys } });
 
-  return normalizeResults(ids, '_id', cacheKeyFn)(results);
+  return normalizeResults(keys, keyField, cacheKeyFn)(results);
 }
