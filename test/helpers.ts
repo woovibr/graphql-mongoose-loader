@@ -5,10 +5,11 @@ import GroupModel from '../test/fixtures/GroupModel';
 
 const mongooseOptions = {
   autoIndex: false,
-  autoReconnect: true,
-  reconnectTries: Number.MAX_VALUE,
-  reconnectInterval: 1000,
   connectTimeoutMS: 10000,
+  useNewUrlParser: true,
+  useFindAndModify: false,
+  useCreateIndex: true,
+  useUnifiedTopology: true,
 };
 
 export interface TestGlobal extends NodeJS.Global {
@@ -44,8 +45,6 @@ export async function connectMongoose() {
   return mongoose.connect(global.__MONGO_URI__, {
     ...mongooseOptions,
     dbName: global.__MONGO_DB_NAME__,
-    useNewUrlParser: true,
-    useCreateIndex: true,
   });
 }
 
