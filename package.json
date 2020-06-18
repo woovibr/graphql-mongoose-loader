@@ -68,7 +68,9 @@
   "main": "lib/index.js",
   "module": "src/index.js",
   "peerDependencies": {
-    "graphql": "^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0"
+    "graphql": "*",
+    "graphql-relay": "*",
+    "mongoose": "*"
   },
   "pre-commit": "lint:staged",
   "publishConfig": {
