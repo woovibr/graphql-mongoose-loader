@@ -7,7 +7,7 @@ import {
 import DataLoader from 'dataloader';
 
 import mongooseLoader from '../MongooseLoader';
-import UserModel from '../../test/fixtures/UserModel';
+import UserModel, { IUser } from '../../test/fixtures/UserModel';
 
 beforeAll(connectMongooseAndPopulate);
 
@@ -19,7 +19,7 @@ it('should batch user load', async () => {
   const userA = await createUser();
   const userB = await createUser();
 
-  const userDataloader = new DataLoader(ids => mongooseLoader(UserModel, ids));
+  const userDataloader = new DataLoader<string, IUser>(ids => mongooseLoader(UserModel, ids));
 
   // should batch user load
   const resultUserA = userDataloader.load(userA._id.toString());
@@ -35,7 +35,7 @@ it('should batch user load without lean', async () => {
   const userA = await createUser();
   const userB = await createUser();
 
-  const userDataloader = new DataLoader(ids => mongooseLoader(UserModel, ids, false));
+  const userDataloader = new DataLoader<string, IUser>(ids => mongooseLoader(UserModel, ids, false));
 
   // should batch user load
   const resultUserA = userDataloader.load(userA._id.toString());
@@ -51,7 +51,7 @@ it('should load based on custom key', async () => {
   const userName = 'user-a';
   const userA = await createUser({ userName });
 
-  const userDataloader = new DataLoader(ids => mongooseLoader(UserModel, ids, true, 'userName'));
+  const userDataloader = new DataLoader<string, IUser>(ids => mongooseLoader(UserModel, ids, true, 'userName'));
 
   const userAData = await userDataloader.load(userA.userName);
 
