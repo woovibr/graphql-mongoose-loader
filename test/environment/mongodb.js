@@ -1,12 +1,16 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 const NodeEnvironment = require('jest-environment-node');
-const MongodbMemoryServer = require('mongodb-memory-server');
+const { MongoMemoryServer } = require('mongodb-memory-server');
 
 class MongoDbEnvironment extends NodeEnvironment {
   constructor(config) {
     super(config);
     // eslint-disable-next-line new-cap
-    this.mongod = new MongodbMemoryServer.default();
+    this.mongod = new MongoMemoryServer({
+      binary: {
+        version: 'latest',
+      }
+    });
   }
 
   async setup() {
