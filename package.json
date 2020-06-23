@@ -25,6 +25,7 @@
     "@types/graphql-relay": "0.6.0",
     "@types/jest": "26.0.0",
     "@types/mongoose": "5.7.27",
+    "@types/mongodb": "3.5.23",
     "babel-eslint": "10.0.3",
     "babel-jest": "26.0.1",
     "babel-plugin-jest-hoist": "26.0.0",
@@ -81,7 +82,7 @@
     "url": "git+https://github.com/entria/graphql-mongoose-loader"
   },
   "scripts": {
-    "build": "npm run build:babel",
+    "build": "npm run build:babel && npm run build:ts",
     "build:babel": "rm -rf lib/* && babel src --extensions \".es6,.js,.es,.mjs,.ts\" --ignore src/**/*.spec.ts,src/**/*.test.ts --out-dir lib --copy-files --source-maps --verbose",
     "build:ts": "tsc -p tsconfig.base.json",
     "check": "npm run test",
