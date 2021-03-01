@@ -1458,10 +1458,10 @@
   resolved "https://registry.yarnpkg.com/@types/minimist/-/minimist-1.2.0.tgz#69a23a3ad29caf0097f06eda59b361ee2f0639f6"
   integrity sha1-aaI6OtKcrwCX8G7aWbNh7i8GOfY=
 
-"@types/mongodb@*", "@types/mongodb@3.6.7", "@types/mongodb@^3.5.27":
-  version "3.6.7"
-  resolved "https://registry.yarnpkg.com/@types/mongodb/-/mongodb-3.6.7.tgz#b15300254083bc4c6b09036ccaaa75d2f9c6e35c"
-  integrity sha512-47P64kbkXarlleSMzSrRG04uzY+Dr3xAilOiqRIsqj/sZrmq6cUMx8njydY/iWMqi8IdE9ojFQl/X3ou9EsAlQ==
+"@types/mongodb@*", "@types/mongodb@3.6.8", "@types/mongodb@^3.5.27":
+  version "3.6.8"
+  resolved "https://registry.yarnpkg.com/@types/mongodb/-/mongodb-3.6.8.tgz#f80f0a3022c44d8db659a936434403ca3f4661df"
+  integrity sha512-8qNbL5/GFrljXc/QijcuQcUMYZ1iWNcqnJ6tneROwbfU0LsAjQ9bmq3aHi5lWXM4cyBPd2F/n9INAk/pZZttHw==
   dependencies:
     "@types/bson" "*"
     "@types/node" "*"
