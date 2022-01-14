@@ -9,16 +9,16 @@ class MongoDbEnvironment extends NodeEnvironment {
     this.mongod = new MongoMemoryServer({
       binary: {
         version: 'latest',
-      }
+      },
     });
   }
 
   async setup() {
     await super.setup();
-    // console.log('\n# MongoDB Environment Setup #');
 
-    this.global.__MONGO_URI__ = await this.mongod.getConnectionString();
-    this.global.__MONGO_DB_NAME__ = await this.mongod.getDbName();
+    await this.mongod.start();
+
+    this.global.__MONGO_URI__ = this.mongod.getUri();
     this.global.__COUNTERS__ = {
       user: 0,
       group: 0,
@@ -26,7 +26,6 @@ class MongoDbEnvironment extends NodeEnvironment {
   }
 
   async teardown() {
-    // console.log('\n# MongoDB Environment Teardown #');
     await super.teardown();
     await this.mongod.stop();
   }

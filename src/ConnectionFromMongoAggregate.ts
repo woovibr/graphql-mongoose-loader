@@ -60,7 +60,7 @@ async function connectionFromMongoAggregate<LoaderResult, Ctx>({
   // avoid large objects retrieval from collection
   const slice: Array<{ _id: ObjectId }> = await (raw
     ? clonedAggregate
-    : clonedAggregate.project('_id'));
+    : clonedAggregate.project({ _id: 1 }));
 
   const edges: Array<{
     cursor: string,

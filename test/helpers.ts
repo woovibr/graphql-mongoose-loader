@@ -7,8 +7,6 @@ const mongooseOptions = {
   autoIndex: false,
   connectTimeoutMS: 10000,
   useNewUrlParser: true,
-  useFindAndModify: false,
-  useCreateIndex: true,
   useUnifiedTopology: true,
 };
 
