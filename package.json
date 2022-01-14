@@ -46,9 +46,6 @@
     "tslint": "6.1.3",
     "typescript": "4.5.4"
   },
-  "resolutions": {
-    "mongodb": "^4.3.0"
-  },
   "homepage": "https://github.com/entria/graphql-mongoose-loader",
   "jsnext:main": "src/index.js",
   "keywords": [
@@ -83,6 +80,9 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/entria/graphql-mongoose-loader"
+  },
+  "resolutions": {
+    "mongodb": "^4.3.0"
   },
   "scripts": {
     "build": "npm run build:babel && npm run build:ts",
