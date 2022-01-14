@@ -1,5 +1,5 @@
 import { ConnectionArguments } from 'graphql-relay';
-import mongoose, { Query } from 'mongoose';
+import mongoose, { Document, Query } from 'mongoose';
 type ObjectId = mongoose.Schema.Types.ObjectId;
 
 export const PREFIX = 'mongo:';
@@ -32,7 +32,7 @@ export const getOffsetWithDefault = (cursor: string | null, defaultOffset: numbe
 export const offsetToCursor = (offset: number): string => base64(PREFIX + offset);
 
 export type TotalCountOptions = {
-  cursor: Query<any>,
+  cursor: Query<any, Document<any, {}>>,
   useEstimatedCount?: boolean,
   lean: boolean,
 };
@@ -152,7 +152,7 @@ export function getPageInfo<NodeType>({
 }
 
 export type ConnectionOptionsCursor<LoaderResult, Ctx> = {
-  cursor: Query<any>,
+  cursor: Query<any, Document<any, {}>>,
   context: Ctx,
   args: ConnectionArguments,
   loader: (ctx: Ctx, id: string | ObjectId | object) => LoaderResult,
