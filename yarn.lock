@@ -1840,17 +1840,7 @@ babel-plugin-istanbul@^6.1.1:
     istanbul-lib-instrument "^5.0.4"
     test-exclude "^6.0.0"
 
-babel-plugin-jest-hoist@27.5.0:
-  version "27.5.0"
-  resolved "https://registry.yarnpkg.com/babel-plugin-jest-hoist/-/babel-plugin-jest-hoist-27.5.0.tgz#8fdf07835f2165a068de3ce95fd7749a89801b51"
-  integrity sha512-ztwNkHl+g1GaoQcb8f2BER4C3LMvSXuF7KVqtUioXQgScSEnkl6lLgCILUYIR+CPTwL8H3F/PNLze64HPWF9JA==
-  dependencies:
-    "@babel/template" "^7.3.3"
-    "@babel/types" "^7.3.3"
-    "@types/babel__core" "^7.0.0"
-    "@types/babel__traverse" "^7.0.6"
-
-babel-plugin-jest-hoist@^27.5.1:
+babel-plugin-jest-hoist@27.5.1, babel-plugin-jest-hoist@^27.5.1:
   version "27.5.1"
   resolved "https://registry.yarnpkg.com/babel-plugin-jest-hoist/-/babel-plugin-jest-hoist-27.5.1.tgz#9be98ecf28c331eb9f5df9c72d6f89deb8181c2e"
   integrity sha512-50wCwD5EMNW4aRpOwtqzyZHIewTYNxLA4nhB+09d8BIssfNfzBRhkBIHiaPv1Si226TQSvp8gxAJm2iY2qs2hQ==
