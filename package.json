@@ -40,7 +40,7 @@
     "jest-cli": "27.5.1",
     "lint-staged": "12.3.7",
     "mongodb": "^4.3.0",
-    "mongodb-memory-server": "8.4.1",
+    "mongodb-memory-server": "8.4.2",
     "mongoose": "6.2.9",
     "prettier": "2.6.1",
     "tslint": "6.1.3",
