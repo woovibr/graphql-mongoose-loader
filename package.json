@@ -38,7 +38,7 @@
     "graphql-relay": "0.10.0",
     "jest": "27.5.1",
     "jest-cli": "27.5.1",
-    "lint-staged": "12.3.7",
+    "lint-staged": "12.3.8",
     "mongodb": "^4.3.0",
     "mongodb-memory-server": "8.4.2",
     "mongoose": "6.3.0",
