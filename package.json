@@ -29,7 +29,7 @@
     "babel-jest": "27.5.1",
     "babel-plugin-jest-hoist": "27.5.1",
     "dataloader": "2.0.0",
-    "eslint": "8.13.0",
+    "eslint": "8.14.0",
     "eslint-import-resolver-typescript": "2.7.1",
     "eslint-plugin-flowtype": "8.0.3",
     "eslint-plugin-import": "2.26.0",
