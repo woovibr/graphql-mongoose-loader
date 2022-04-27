@@ -36,7 +36,7 @@
     "eslint-plugin-typescript": "0.14.0",
     "graphql": "16.4.0",
     "graphql-relay": "0.10.0",
-    "jest": "27.5.1",
+    "jest": "28.0.1",
     "jest-cli": "27.5.1",
     "lint-staged": "12.4.1",
     "mongodb": "^4.3.0",
