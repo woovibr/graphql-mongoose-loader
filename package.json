@@ -44,7 +44,7 @@
     "mongoose": "6.3.1",
     "prettier": "2.6.2",
     "tslint": "6.1.3",
-    "typescript": "4.6.3"
+    "typescript": "4.8.2"
   },
   "homepage": "https://github.com/entria/graphql-mongoose-loader",
   "jsnext:main": "src/index.js",
