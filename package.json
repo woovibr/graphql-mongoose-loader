@@ -26,7 +26,7 @@
     "@types/jest": "27.4.1",
     "@types/mongoose": "^5.11.97",
     "babel-eslint": "10.1.0",
-    "babel-jest": "28.0.2",
+    "babel-jest": "29.1.2",
     "babel-plugin-jest-hoist": "28.0.2",
     "dataloader": "2.0.0",
     "eslint": "8.14.0",
