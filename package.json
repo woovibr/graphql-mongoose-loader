@@ -21,7 +21,7 @@
     "@babel/preset-flow": "7.16.7",
     "@babel/preset-typescript": "7.16.7",
     "@commitlint/cli": "16.2.3",
-    "@commitlint/config-conventional": "16.2.1",
+    "@commitlint/config-conventional": "17.4.0",
     "@types/graphql-relay": "0.7.0",
     "@types/jest": "27.4.1",
     "@types/mongoose": "^5.11.97",
