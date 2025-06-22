@@ -12,9 +12,9 @@ export default defineConfig({
       syntax: ['node 18'],
       dts: true
     },
-    // {
-    //   format: 'cjs',
-    //   syntax: ['node 18'],
-    // },
+    {
+      format: 'cjs',
+      syntax: ['node 18'],
+    },
   ],
 });
