@@ -7,6 +7,10 @@
     "email": "dev@woovi.com.br",
     "url": "https://github.com/woovi"
   },
+  "dependencies": {
+    "mongodb-memory-server-global": "^10.1.4",
+    "uuid": "^11.1.0"
+  },
   "devDependencies": {
     "@commitlint/cli": "19.8.1",
     "@commitlint/config-conventional": "19.8.1",
@@ -22,6 +26,16 @@
     "typescript": "5.8.3",
     "vitest": "^3.2.4"
   },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": [
+    "dist"
+  ],
   "homepage": "https://github.com/woovibr/graphql-mongoose-loader",
   "keywords": [
     "graphql",
@@ -38,6 +52,7 @@
       "prettier --write"
     ]
   },
+  "main": "./dist/index.cjs",
   "peerDependencies": {
     "graphql": "*",
     "graphql-relay": "*",
@@ -51,20 +66,9 @@
     "type": "git",
     "url": "git+https://github.com/woovibr/graphql-mongoose-loader"
   },
-  "type": "module",
-  "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js",
-      "require": "./dist/index.cjs"
-    }
-  },
-  "main": "./dist/index.cjs",
-  "types": "./dist/index.d.ts",
-  "files": [
-    "dist"
-  ],
   "scripts": {
+    "build": "rslib build",
+    "dev": "rslib build --watch",
     "lint": "eslint src/**",
     "lint:staged": "lint-staged",
     "precommit": "yarn lint:staged",
@@ -73,12 +77,8 @@
     "release:major": "npm version major && git push --follow-tags",
     "release:minor": "npm version minor && git push --follow-tags",
     "release:patch": "npm version patch && git push --follow-tags",
-    "test": "vitest",
-    "build": "rslib build",
-    "dev": "rslib build --watch"
+    "test": "vitest"
   },
-  "dependencies": {
-    "mongodb-memory-server-global": "^10.1.4",
-    "uuid": "^11.1.0"
-  }
+  "type": "module",
+  "types": "./dist/index.d.ts"
 }
