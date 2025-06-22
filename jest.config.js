@@ -1,6 +1,5 @@
 module.exports = {
   displayName: 'test',
-  testEnvironment: '<rootDir>/test/environment/mongodb',
   testPathIgnorePatterns: ['/node_modules/', './lib', './scripts'],
   coverageReporters: ['lcov', 'html'],
   resetModules: false,
@@ -10,4 +9,11 @@ module.exports = {
   },
   testRegex: '(/__tests__/.*|(\\.|/)(test|spec))\\.(js|ts)?$',
   moduleFileExtensions: ['ts', 'js'],
+  testEnvironment: '<rootDir>/test/testEnvironment.js',
+  globalSetup: '<rootDir>/test/setup.js',
+  globalTeardown: '<rootDir>/test/teardown.js',
+  setupFilesAfterEnv: [
+    '<rootDir>/test/setupFilesAfterEnv.js',
+  ],
+  setupFiles: ['<rootDir>/test/setupFiles.js'],
 };
