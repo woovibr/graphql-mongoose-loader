@@ -10,11 +10,11 @@ export const UserSchema = new mongoose.Schema(
   },
 );
 
-export interface IUser extends Document {
+export interface IUser {
   name: string,
   userName: string
 }
 
-const UserModel: Model<IUser> = mongoose.model('User', UserSchema);
+const UserModel = mongoose.model<IUser>('User', UserSchema);
 
 export default UserModel;

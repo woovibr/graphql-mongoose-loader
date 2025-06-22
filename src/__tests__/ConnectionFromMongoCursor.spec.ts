@@ -3,10 +3,11 @@ import {
   connectMongooseAndPopulate,
   disconnectMongoose,
   createUser,
-} from '../../test/helpers';
+} from '../../testutils/helpers.ts';
+import { vi, beforeAll, beforeEach, afterAll, it, expect } from 'vitest'
 
 import connectionFromMongoCursor from '../ConnectionFromMongoCursor';
-import UserModel from '../../test/fixtures/UserModel';
+import UserModel from '../../testutils/fixtures/UserModel';
 
 beforeAll(connectMongooseAndPopulate);
 
@@ -26,7 +27,7 @@ it('should return connection from mongo cursor', async () => {
     randomValue: 2,
   };
 
-  const loader = jest.fn();
+  const loader = vi.fn();
   loader.mockReturnValue('user');
 
   const argsFirstPage = { first: 2 };
@@ -72,7 +73,7 @@ it('should work with empty args', async () => {
     randomValue: 2,
   };
 
-  const loader = jest.fn();
+  const loader = vi.fn();
   loader.mockReturnValue('user');
 
   const args = {};
@@ -96,7 +97,7 @@ it('should work with empty args and empty result', async () => {
     randomValue: 2,
   };
 
-  const loader = jest.fn();
+  const loader = vi.fn();
   loader.mockReturnValue('user');
 
   const args = {};
@@ -124,7 +125,7 @@ it('should return connection from mongo cursor using raw', async () => {
     randomValue: 2,
   };
 
-  const loader = jest.fn();
+  const loader = vi.fn();
   loader.mockReturnValue('user');
 
   const argsFirstPage = { first: 2 };
@@ -154,7 +155,7 @@ it('should return connection from mongo cursor using first 1 and last as null', 
     randomValue: 2,
   };
 
-  const loader = jest.fn();
+  const loader = vi.fn();
   loader.mockReturnValue('user');
 
   const argsFirstPage = {
@@ -189,7 +190,7 @@ it('should return connection from mongo cursor with useEstimatedCount', async ()
     randomValue: 2,
   };
 
-  const loader = jest.fn();
+  const loader = vi.fn();
   loader.mockReturnValue('user');
 
   const argsFirstPage = { first: 2 };
@@ -236,7 +237,7 @@ it('should return connection from mongo cursor using lean equals false', async (
     randomValue: 2,
   };
 
-  const loader = jest.fn();
+  const loader = vi.fn();
   loader.mockReturnValue('user');
 
   const argsFirstPage = { first: 2 };

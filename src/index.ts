@@ -8,16 +8,16 @@ export {
   getTotalCount,
   calculateOffsets,
   getPageInfo,
-} from './ConnectionFromMongoCursor';
+} from './ConnectionFromMongoCursor.ts';
 
 export {
-  OffsetOptions,
-  PageInfoOptions,
-  ConnectionOptionsCursor,
-} from './ConnectionFromMongoCursor';
+  type OffsetOptions,
+  type PageInfoOptions,
+  type ConnectionOptionsCursor,
+} from './ConnectionFromMongoCursor.ts';
 
-export { default as connectionFromMongoAggregate } from './ConnectionFromMongoAggregate';
+export { default as connectionFromMongoAggregate } from './ConnectionFromMongoAggregate.ts';
 
-export { ConnectionOptionsAggregate } from './ConnectionFromMongoAggregate';
+export { type ConnectionOptionsAggregate } from './ConnectionFromMongoAggregate.ts';
 
-export { default as mongooseLoader } from './MongooseLoader';
+export { default as mongooseLoader } from './MongooseLoader.ts';

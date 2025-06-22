@@ -1,22 +1,18 @@
-import mongoose from 'mongoose';
+import mongoose, { HydratedDocument } from 'mongoose';
 
-import UserModel from '../test/fixtures/UserModel';
-import GroupModel from '../test/fixtures/GroupModel';
+import UserModel, { IUser } from './fixtures/UserModel';
+import GroupModel, { IGroup } from './fixtures/GroupModel';
 
 const mongooseOptions = {
   autoIndex: false,
   connectTimeoutMS: 10000,
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
 };
 
-export interface TestGlobal extends NodeJS.Global {
-  __COUNTERS__: object,
-  __MONGO_URI__: string,
-  __MONGO_DB_NAME__: string,
+declare global {
+  var __COUNTERS__: Record<string, number>;
+  var __MONGO_URI__: string;
+  var __MONGO_DB_NAME__: string;
 }
-
-declare const global: TestGlobal;
 
 export const getCounter = (key: string) => {
   if (key in global.__COUNTERS__) {
@@ -35,11 +31,10 @@ export const getCounter = (key: string) => {
 };
 
 export const restartCounters = () => {
-  global.__COUNTERS__ = {}
+  global.__COUNTERS__ = {};
 };
 
 export async function connectMongoose() {
-  jest.setTimeout(20000);
   return mongoose.connect(global.__MONGO_URI__, {
     ...mongooseOptions,
     dbName: global.__MONGO_DB_NAME__,
@@ -51,7 +46,7 @@ export async function connectMongooseAndPopulate() {
 }
 
 export async function clearDatabase() {
-  await mongoose.connection.db.dropDatabase();
+  await mongoose.connection.db?.dropDatabase();
 }
 
 export async function disconnectMongoose() {
@@ -64,7 +59,9 @@ export async function clearDbAndRestartCounters() {
   restartCounters();
 }
 
-export const createUser = async (args: any = {}) => {
+export const createUser = async (
+  args: any = {},
+): Promise<HydratedDocument<IUser>> => {
   const n = getCounter('user');
 
   return new UserModel({
@@ -73,7 +70,9 @@ export const createUser = async (args: any = {}) => {
   }).save();
 };
 
-export const createGroup = async (args: any = {}) => {
+export const createGroup = async (
+  args: any = {},
+): Promise<HydratedDocument<IGroup>> => {
   const n = getCounter('group');
 
   return new GroupModel({

@@ -4,10 +4,11 @@ import {
   disconnectMongoose,
   createUser,
   createGroup,
-} from '../../test/helpers';
+} from '../../testutils/helpers.ts';
+import { vi, beforeAll, beforeEach, afterAll, it, expect } from 'vitest'
 
 import connectionFromMongoAggregate from '../ConnectionFromMongoAggregate';
-import GroupModel from '../../test/fixtures/GroupModel';
+import GroupModel from '../../testutils/fixtures/GroupModel';
 
 beforeAll(connectMongooseAndPopulate);
 
@@ -56,7 +57,7 @@ it('should return connection from mongo aggregate', async () => {
     randomValue: 1,
   };
 
-  const loader = jest.fn();
+  const loader = vi.fn();
   loader.mockReturnValue('user');
 
   const argsFirstPage = { first: 1 };
@@ -125,7 +126,7 @@ it('should work with empty args', async () => {
     randomValue: 1,
   };
 
-  const loader = jest.fn();
+  const loader = vi.fn();
   loader.mockReturnValue('user');
 
   const args = {};
@@ -176,7 +177,7 @@ it('should work with empty args and empty result', async () => {
     randomValue: 1,
   };
 
-  const loader = jest.fn();
+  const loader = vi.fn();
   loader.mockReturnValue('user');
 
   const args = {};
@@ -233,7 +234,7 @@ it('should return connection from mongo aggregate with raw', async () => {
     randomValue: 1,
   };
 
-  const loader = jest.fn();
+  const loader = vi.fn();
   loader.mockReturnValue('user');
 
   const argsFirstPage = { first: 1 };
@@ -292,7 +293,7 @@ it('should not return negative limit', async () => {
     randomValue: 1,
   };
 
-  const loader = jest.fn();
+  const loader = vi.fn();
   loader.mockReturnValue('user');
 
   const args = { first: 10, after: 'bW9uZ286OQ==' };
