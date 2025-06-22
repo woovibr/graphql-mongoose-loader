@@ -32,3 +32,5 @@ flow-coverage
 
 graphql.*.json
 /yarn-offline-cache
+node-compile-cache
+globalConfig.json

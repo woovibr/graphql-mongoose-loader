@@ -1,20 +1,20 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`should return connection from mongo cursor 1`] = `
-Object {
+{
   "count": 4,
-  "edges": Array [
-    Object {
+  "edges": [
+    {
       "cursor": "bW9uZ286MA==",
       "node": "user",
     },
-    Object {
+    {
       "cursor": "bW9uZ286MQ==",
       "node": "user",
     },
   ],
   "endCursorOffset": 2,
-  "pageInfo": Object {
+  "pageInfo": {
     "endCursor": "bW9uZ286MQ==",
     "hasNextPage": true,
     "hasPreviousPage": false,
@@ -25,20 +25,20 @@ Object {
 `;
 
 exports[`should return connection from mongo cursor 2`] = `
-Object {
+{
   "count": 4,
-  "edges": Array [
-    Object {
+  "edges": [
+    {
       "cursor": "bW9uZ286Mg==",
       "node": "user",
     },
-    Object {
+    {
       "cursor": "bW9uZ286Mw==",
       "node": "user",
     },
   ],
   "endCursorOffset": 4,
-  "pageInfo": Object {
+  "pageInfo": {
     "endCursor": "bW9uZ286Mw==",
     "hasNextPage": false,
     "hasPreviousPage": true,
@@ -49,20 +49,20 @@ Object {
 `;
 
 exports[`should return connection from mongo cursor using lean equals false 1`] = `
-Object {
+{
   "count": 4,
-  "edges": Array [
-    Object {
+  "edges": [
+    {
       "cursor": "bW9uZ286MA==",
       "node": "user",
     },
-    Object {
+    {
       "cursor": "bW9uZ286MQ==",
       "node": "user",
     },
   ],
   "endCursorOffset": 2,
-  "pageInfo": Object {
+  "pageInfo": {
     "endCursor": "bW9uZ286MQ==",
     "hasNextPage": true,
     "hasPreviousPage": false,
@@ -73,20 +73,20 @@ Object {
 `;
 
 exports[`should return connection from mongo cursor using lean equals false 2`] = `
-Object {
+{
   "count": 4,
-  "edges": Array [
-    Object {
+  "edges": [
+    {
       "cursor": "bW9uZ286Mg==",
       "node": "user",
     },
-    Object {
+    {
       "cursor": "bW9uZ286Mw==",
       "node": "user",
     },
   ],
   "endCursorOffset": 4,
-  "pageInfo": Object {
+  "pageInfo": {
     "endCursor": "bW9uZ286Mw==",
     "hasNextPage": false,
     "hasPreviousPage": true,
@@ -97,20 +97,20 @@ Object {
 `;
 
 exports[`should return connection from mongo cursor using raw 1`] = `
-Object {
+{
   "count": 4,
-  "edges": Array [
-    Object {
+  "edges": [
+    {
       "cursor": "bW9uZ286MA==",
       "node": "user",
     },
-    Object {
+    {
       "cursor": "bW9uZ286MQ==",
       "node": "user",
     },
   ],
   "endCursorOffset": 2,
-  "pageInfo": Object {
+  "pageInfo": {
     "endCursor": "bW9uZ286MQ==",
     "hasNextPage": true,
     "hasPreviousPage": false,
@@ -121,20 +121,20 @@ Object {
 `;
 
 exports[`should return connection from mongo cursor with useEstimatedCount 1`] = `
-Object {
+{
   "count": 4,
-  "edges": Array [
-    Object {
+  "edges": [
+    {
       "cursor": "bW9uZ286MA==",
       "node": "user",
     },
-    Object {
+    {
       "cursor": "bW9uZ286MQ==",
       "node": "user",
     },
   ],
   "endCursorOffset": 2,
-  "pageInfo": Object {
+  "pageInfo": {
     "endCursor": "bW9uZ286MQ==",
     "hasNextPage": true,
     "hasPreviousPage": false,
@@ -145,20 +145,20 @@ Object {
 `;
 
 exports[`should return connection from mongo cursor with useEstimatedCount 2`] = `
-Object {
+{
   "count": 4,
-  "edges": Array [
-    Object {
+  "edges": [
+    {
       "cursor": "bW9uZ286Mg==",
       "node": "user",
     },
-    Object {
+    {
       "cursor": "bW9uZ286Mw==",
       "node": "user",
     },
   ],
   "endCursorOffset": 4,
-  "pageInfo": Object {
+  "pageInfo": {
     "endCursor": "bW9uZ286Mw==",
     "hasNextPage": false,
     "hasPreviousPage": true,
@@ -169,28 +169,28 @@ Object {
 `;
 
 exports[`should work with empty args 1`] = `
-Object {
+{
   "count": 4,
-  "edges": Array [
-    Object {
+  "edges": [
+    {
       "cursor": "bW9uZ286MA==",
       "node": "user",
     },
-    Object {
+    {
       "cursor": "bW9uZ286MQ==",
       "node": "user",
     },
-    Object {
+    {
       "cursor": "bW9uZ286Mg==",
       "node": "user",
     },
-    Object {
+    {
       "cursor": "bW9uZ286Mw==",
       "node": "user",
     },
   ],
   "endCursorOffset": 4,
-  "pageInfo": Object {
+  "pageInfo": {
     "endCursor": "bW9uZ286Mw==",
     "hasNextPage": false,
     "hasPreviousPage": false,
@@ -201,11 +201,11 @@ Object {
 `;
 
 exports[`should work with empty args and empty result 1`] = `
-Object {
+{
   "count": 0,
-  "edges": Array [],
+  "edges": [],
   "endCursorOffset": 0,
-  "pageInfo": Object {
+  "pageInfo": {
     "endCursor": null,
     "hasNextPage": false,
     "hasPreviousPage": false,

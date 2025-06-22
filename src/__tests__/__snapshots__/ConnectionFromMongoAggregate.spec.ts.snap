@@ -1,11 +1,11 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`should not return negative limit 1`] = `
-Object {
+{
   "count": 2,
-  "edges": Array [],
+  "edges": [],
   "endCursorOffset": 10,
-  "pageInfo": Object {
+  "pageInfo": {
     "endCursor": null,
     "hasNextPage": false,
     "hasPreviousPage": true,
@@ -16,16 +16,16 @@ Object {
 `;
 
 exports[`should return connection from mongo aggregate 1`] = `
-Object {
+{
   "count": 2,
-  "edges": Array [
-    Object {
+  "edges": [
+    {
       "cursor": "bW9uZ286MA==",
       "node": "user",
     },
   ],
   "endCursorOffset": 1,
-  "pageInfo": Object {
+  "pageInfo": {
     "endCursor": "bW9uZ286MA==",
     "hasNextPage": true,
     "hasPreviousPage": false,
@@ -36,16 +36,16 @@ Object {
 `;
 
 exports[`should return connection from mongo aggregate 2`] = `
-Object {
+{
   "count": 2,
-  "edges": Array [
-    Object {
+  "edges": [
+    {
       "cursor": "bW9uZ286MQ==",
       "node": "user",
     },
   ],
   "endCursorOffset": 2,
-  "pageInfo": Object {
+  "pageInfo": {
     "endCursor": "bW9uZ286MQ==",
     "hasNextPage": false,
     "hasPreviousPage": true,
@@ -56,16 +56,16 @@ Object {
 `;
 
 exports[`should return connection from mongo aggregate with raw 1`] = `
-Object {
+{
   "count": 2,
-  "edges": Array [
-    Object {
+  "edges": [
+    {
       "cursor": "bW9uZ286MA==",
       "node": "user",
     },
   ],
   "endCursorOffset": 1,
-  "pageInfo": Object {
+  "pageInfo": {
     "endCursor": "bW9uZ286MA==",
     "hasNextPage": true,
     "hasPreviousPage": false,
@@ -76,20 +76,20 @@ Object {
 `;
 
 exports[`should work with empty args 1`] = `
-Object {
+{
   "count": 2,
-  "edges": Array [
-    Object {
+  "edges": [
+    {
       "cursor": "bW9uZ286MA==",
       "node": "user",
     },
-    Object {
+    {
       "cursor": "bW9uZ286MQ==",
       "node": "user",
     },
   ],
   "endCursorOffset": 2,
-  "pageInfo": Object {
+  "pageInfo": {
     "endCursor": "bW9uZ286MQ==",
     "hasNextPage": false,
     "hasPreviousPage": false,
@@ -100,11 +100,11 @@ Object {
 `;
 
 exports[`should work with empty args and empty result 1`] = `
-Object {
+{
   "count": 0,
-  "edges": Array [],
+  "edges": [],
   "endCursorOffset": 0,
-  "pageInfo": Object {
+  "pageInfo": {
     "endCursor": null,
     "hasNextPage": false,
     "hasPreviousPage": false,
