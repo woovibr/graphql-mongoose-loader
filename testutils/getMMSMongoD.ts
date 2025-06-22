@@ -1,9 +1,7 @@
-import { getMMSLaunchTimeout } from './getMMSLaunchTimeout';
-import { getMMSPort } from './getMMSPort';
+import { MongoMemoryServer } from 'mongodb-memory-server-global';
 
-const MMS = require('mongodb-memory-server-global');
-
-const { MongoMemoryServer, MongoMemoryReplSet } = MMS;
+import { getMMSLaunchTimeout } from './getMMSLaunchTimeout.ts';
+import { getMMSPort } from './getMMSPort.ts';
 
 export const getMMSMongoD = async () => {
   const mongod = await MongoMemoryServer.create({

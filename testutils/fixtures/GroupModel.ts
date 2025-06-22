@@ -17,11 +17,11 @@ export const GroupSchema = new mongoose.Schema(
   },
 );
 
-export interface IGroup extends Document {
+export interface IGroup {
   name: string,
   users: Types.ObjectId[]
 }
 
-const GroupModel: Model<IGroup> = mongoose.model('Group', GroupSchema);
+const GroupModel = mongoose.model<IGroup>('Group', GroupSchema);
 
 export default GroupModel;
