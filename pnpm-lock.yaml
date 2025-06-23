@@ -27,6 +27,9 @@ importers:
       '@rslib/core':
         specifier: ^0.10.2
         version: 0.10.2(@microsoft/api-extractor@7.52.8(@types/node@24.0.3))(typescript@5.8.3)
+      '@types/node':
+        specifier: ^24.0.3
+        version: 24.0.3
       dataloader:
         specifier: 2.2.3
         version: 2.2.3
