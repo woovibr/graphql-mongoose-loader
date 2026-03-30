@@ -48,7 +48,7 @@ export type OffsetOptions = {
   // Connection Args
   args: ConnectionArguments,
   // total Count
-  totalCount: number,
+  totalCount: number | null,
 };
 
 export type PageInfoOffsets = {
@@ -74,8 +74,10 @@ export type PageInfoOptions<NodeType> = PageInfoOffsets & {
     cursor: string,
     node: NodeType,
   }>,
-  totalCount: number,
+  totalCount: number | null,
 };
+
+const LARGE_TOTAL_COUNT = 999999;
 
 export const calculateOffsets = ({ args, totalCount }: OffsetOptions): Offsets => {
   const { after, before } = args;
@@ -86,11 +88,11 @@ export const calculateOffsets = ({ args, totalCount }: OffsetOptions): Offsets =
   if (first && first > 1000) first = 1000;
   if (last && last > 1000) last = 1000;
 
-  const beforeOffset = getOffsetWithDefault(before || null, totalCount);
+  const beforeOffset = getOffsetWithDefault(before || null, totalCount == null ? LARGE_TOTAL_COUNT : totalCount);
   const afterOffset = getOffsetWithDefault(after || null, -1);
 
   let startOffset = Math.max(-1, afterOffset) + 1;
-  let endOffset = Math.min(totalCount, beforeOffset);
+  let endOffset = totalCount ? Math.min(totalCount, beforeOffset) : beforeOffset;
 
   if (first !== undefined && first !== null) {
     endOffset = Math.min(endOffset, startOffset + first);
@@ -129,8 +131,8 @@ export function getPageInfo<NodeType>({
   // last,
   // afterOffset,
   // beforeOffset,
-  // startOffset,
-  // endOffset,
+  startOffset,
+  endOffset,
   totalCount,
   startCursorOffset,
   endCursorOffset,
@@ -141,11 +143,23 @@ export function getPageInfo<NodeType>({
   // const lowerBound = after ? afterOffset + 1 : 0;
   // const upperBound = before ? Math.min(beforeOffset, totalCount) : totalCount;
 
+  const limit = endOffset - startOffset;
+
+  const hasNextPageWithoutTotalCount = edges.length >= limit;
+  const hasNextPageWithTotalCount = totalCount
+    ? endCursorOffset < totalCount
+    : false;
+
+  const hasNextPage =
+    totalCount !== null
+      ? hasNextPageWithTotalCount
+      : hasNextPageWithoutTotalCount;
+
   return {
     startCursor: firstEdge ? firstEdge.cursor : null,
     endCursor: lastEdge ? lastEdge.cursor : null,
     hasPreviousPage: startCursorOffset > 0,
-    hasNextPage: endCursorOffset < totalCount,
+    hasNextPage,
     // hasPreviousPage: last !== null ? startOffset > lowerBound : false,
     // hasNextPage: first !== null ? endOffset < upperBound : false,
   };
@@ -159,6 +173,7 @@ export type ConnectionOptionsCursor<LoaderResult, Ctx> = {
   raw?: boolean, // loader should receive raw result
   useEstimatedCount?: boolean,
   lean?: boolean,
+  shouldCount?: boolean,
 };
 
 async function connectionFromMongoCursor<LoaderResult, Ctx>({
@@ -169,15 +184,20 @@ async function connectionFromMongoCursor<LoaderResult, Ctx>({
   raw = false,
   useEstimatedCount = false,
   lean = true,
+  shouldCount = false,
 }: ConnectionOptionsCursor<LoaderResult, Ctx>) {
   // @ts-ignore
   const clonedCursor = lean ? cursor.model.find().lean().merge(cursor) : cursor.model.find().merge(cursor);
 
-  const totalCount: number = await getTotalCount({
-    cursor: clonedCursor,
-    useEstimatedCount,
-    lean,
-  });
+  let totalCount: number | null = null;
+
+  if (shouldCount) {
+    totalCount = await getTotalCount({
+      cursor: clonedCursor,
+      useEstimatedCount,
+      lean,
+    });
+  }
 
   const {
     first,

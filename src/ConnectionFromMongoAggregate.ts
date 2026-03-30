@@ -15,6 +15,7 @@ export type ConnectionOptionsAggregate<LoaderResult, Ctx> = {
   loader: (ctx: Ctx, id: string | ObjectId | Object) => LoaderResult,
   raw?: boolean, // loader should receive raw result
   allowDiskUse?: boolean,
+  shouldCount?: boolean,
 };
 
 /**
@@ -28,14 +29,19 @@ async function connectionFromMongoAggregate<LoaderResult, Ctx>({
   loader,
   raw = false,
   allowDiskUse = false,
+  shouldCount = false,
 }: ConnectionOptionsAggregate<LoaderResult, Ctx>) {
   // https://github.com/Automattic/mongoose/blob/367261e6c83e7e367cf0d3fbd2edea4c64bf1ee2/lib/aggregate.js#L46
   const clonedAggregate = cloneAggregate(aggregate).allowDiskUse(allowDiskUse);
 
-  const resultCount: Array<{ total: number }> = await cloneAggregate(aggregate)
-    .allowDiskUse(allowDiskUse)
-    .count('total');
-  const totalCount = resultCount.length ? resultCount[0].total : 0;
+  let totalCount: number | null = null;
+
+  if (shouldCount) {
+    const resultCount: Array<{ total: number }> = await cloneAggregate(aggregate)
+      .allowDiskUse(allowDiskUse)
+      .count('total');
+    totalCount = resultCount.length ? resultCount[0].total : 0;
+  }
 
   const {
     first,
