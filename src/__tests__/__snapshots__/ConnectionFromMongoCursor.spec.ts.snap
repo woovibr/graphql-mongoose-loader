@@ -2,7 +2,7 @@
 
 exports[`should return connection from mongo cursor 1`] = `
 {
-  "count": 4,
+  "count": null,
   "edges": [
     {
       "cursor": "bW9uZ286MA==",
@@ -26,7 +26,7 @@ exports[`should return connection from mongo cursor 1`] = `
 
 exports[`should return connection from mongo cursor 2`] = `
 {
-  "count": 4,
+  "count": null,
   "edges": [
     {
       "cursor": "bW9uZ286Mg==",
@@ -37,7 +37,7 @@ exports[`should return connection from mongo cursor 2`] = `
       "node": "user",
     },
   ],
-  "endCursorOffset": 4,
+  "endCursorOffset": 12,
   "pageInfo": {
     "endCursor": "bW9uZ286Mw==",
     "hasNextPage": false,
@@ -50,7 +50,7 @@ exports[`should return connection from mongo cursor 2`] = `
 
 exports[`should return connection from mongo cursor using lean equals false 1`] = `
 {
-  "count": 4,
+  "count": null,
   "edges": [
     {
       "cursor": "bW9uZ286MA==",
@@ -74,7 +74,7 @@ exports[`should return connection from mongo cursor using lean equals false 1`] 
 
 exports[`should return connection from mongo cursor using lean equals false 2`] = `
 {
-  "count": 4,
+  "count": null,
   "edges": [
     {
       "cursor": "bW9uZ286Mg==",
@@ -85,7 +85,7 @@ exports[`should return connection from mongo cursor using lean equals false 2`] 
       "node": "user",
     },
   ],
-  "endCursorOffset": 4,
+  "endCursorOffset": 12,
   "pageInfo": {
     "endCursor": "bW9uZ286Mw==",
     "hasNextPage": false,
@@ -98,7 +98,7 @@ exports[`should return connection from mongo cursor using lean equals false 2`] 
 
 exports[`should return connection from mongo cursor using raw 1`] = `
 {
-  "count": 4,
+  "count": null,
   "edges": [
     {
       "cursor": "bW9uZ286MA==",
@@ -122,7 +122,7 @@ exports[`should return connection from mongo cursor using raw 1`] = `
 
 exports[`should return connection from mongo cursor with useEstimatedCount 1`] = `
 {
-  "count": 4,
+  "count": null,
   "edges": [
     {
       "cursor": "bW9uZ286MA==",
@@ -146,7 +146,7 @@ exports[`should return connection from mongo cursor with useEstimatedCount 1`] =
 
 exports[`should return connection from mongo cursor with useEstimatedCount 2`] = `
 {
-  "count": 4,
+  "count": null,
   "edges": [
     {
       "cursor": "bW9uZ286Mg==",
@@ -157,7 +157,7 @@ exports[`should return connection from mongo cursor with useEstimatedCount 2`] =
       "node": "user",
     },
   ],
-  "endCursorOffset": 4,
+  "endCursorOffset": 12,
   "pageInfo": {
     "endCursor": "bW9uZ286Mw==",
     "hasNextPage": false,
@@ -170,7 +170,7 @@ exports[`should return connection from mongo cursor with useEstimatedCount 2`] =
 
 exports[`should work with empty args 1`] = `
 {
-  "count": 4,
+  "count": null,
   "edges": [
     {
       "cursor": "bW9uZ286MA==",
@@ -189,7 +189,7 @@ exports[`should work with empty args 1`] = `
       "node": "user",
     },
   ],
-  "endCursorOffset": 4,
+  "endCursorOffset": 10,
   "pageInfo": {
     "endCursor": "bW9uZ286Mw==",
     "hasNextPage": false,
@@ -202,9 +202,9 @@ exports[`should work with empty args 1`] = `
 
 exports[`should work with empty args and empty result 1`] = `
 {
-  "count": 0,
+  "count": null,
   "edges": [],
-  "endCursorOffset": 0,
+  "endCursorOffset": 10,
   "pageInfo": {
     "endCursor": null,
     "hasNextPage": false,
