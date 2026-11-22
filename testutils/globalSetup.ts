@@ -1,4 +1,4 @@
-import { MongoMemoryServer } from 'mongodb-memory-server-global';
+import { MongoMemoryServer } from 'mongodb-memory-server';
 import fs from 'node:fs';
 
 import { getGlobalConfigPath } from './getGlobalConfigPath.ts';
