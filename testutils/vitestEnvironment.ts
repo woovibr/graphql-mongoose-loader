@@ -11,7 +11,7 @@ const globalConfig = JSON.parse(readFileSync(globalConfigPath, 'utf-8'));
 
 export default <Environment>{
   name: 'woovi-environment',
-  transformMode: 'ssr',
+  viteEnvironment: 'ssr',
   setup(global) {
     global.__MONGO_URI__ = globalConfig.mongoUri;
     global.__MONGO_DB_NAME__ = uuidv4();

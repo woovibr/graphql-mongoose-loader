@@ -7,24 +7,22 @@
     "email": "dev@woovi.com.br",
     "url": "https://github.com/woovi"
   },
-  "dependencies": {
-    "uuid": "^11.1.0"
-  },
   "devDependencies": {
-    "@commitlint/cli": "19.8.1",
-    "@commitlint/config-conventional": "19.8.1",
-    "@microsoft/api-extractor": "^7.52.8",
-    "@rslib/core": "^0.10.2",
-    "@types/node": "^24.0.3",
+    "@commitlint/cli": "21.2.4",
+    "@commitlint/config-conventional": "21.2.4",
+    "@microsoft/api-extractor": "^7.60.1",
+    "@rslib/core": "^1.0.7",
+    "@types/node": "^26.6.6",
     "dataloader": "2.2.3",
-    "graphql": "16.11.0",
-    "graphql-relay": "0.10.2",
-    "lint-staged": "16.1.2",
-    "mongodb-memory-server": "10.1.4",
-    "mongoose": "8.16.0",
-    "prettier": "3.5.3",
-    "typescript": "5.8.3",
-    "vitest": "^3.2.4"
+    "graphql": "17.1.0",
+    "graphql-relay": "0.11.0",
+    "lint-staged": "17.6.1",
+    "mongodb-memory-server": "11.3.0",
+    "mongoose": "9.12.3",
+    "prettier": "3.10.1",
+    "typescript": "7.0.2",
+    "uuid": "^14.0.3",
+    "vitest": "^5.1.1"
   },
   "exports": {
     ".": {
@@ -71,7 +69,7 @@
     "dev": "rslib build --watch",
     "lint": "eslint src/**",
     "lint:staged": "lint-staged",
-    "precommit": "yarn lint:staged",
+    "precommit": "pnpm lint:staged",
     "prepare": "npm run build",
     "prepublish": "npm run build",
     "release:major": "npm version major && git push --follow-tags",
@@ -80,5 +78,6 @@
     "test": "vitest"
   },
   "type": "module",
-  "types": "./dist/index.d.ts"
+  "types": "./dist/index.d.ts",
+  "packageManager": "pnpm@12.21.0"
 }

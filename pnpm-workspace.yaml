@@ -1,0 +1,2 @@
+allowBuilds:
+  mongodb-memory-server: true
