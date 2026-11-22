@@ -1,4 +1,4 @@
-import { MongoMemoryServer } from 'mongodb-memory-server-global';
+import { MongoMemoryServer } from 'mongodb-memory-server';
 
 import { getMMSLaunchTimeout } from './getMMSLaunchTimeout.ts';
 import { getMMSPort } from './getMMSPort.ts';
